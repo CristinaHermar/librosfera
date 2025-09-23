@@ -33,6 +33,21 @@ h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{font-size:28px}
 
+/* ===== Tagline bajo Librosfera ===== */
+.tagline {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 4px 0 0;
+  max-width: 800px;
+}
+.tagline strong {
+  color: var(--coffee);
+  font-weight: 600;
+}
+
+
 /* ===== Botones ===== */
 .btn{
   padding:10px 14px; border-radius:12px; border:1px solid var(--line);
