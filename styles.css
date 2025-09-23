@@ -60,7 +60,7 @@ h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
   border-color:var(--coffee-2);
   box-shadow:0 12px 26px rgba(139,94,52,.28);
 }
-.btn.huge{font-size:18px; padding:14px 18px; border-radius:14px}
+.btn.huge{font-size:18px; padding:13px 13px; border-radius:14px}
 
 /* ===== Tarjetas / pasos ===== */
 .card{
