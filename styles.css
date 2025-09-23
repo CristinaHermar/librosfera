@@ -108,3 +108,20 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
 @media (max-width:700px){.wrap{padding:0 16px;}.results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}.btn.huge{width:100%;}}
 @media (max-width:430px){.step{grid-template-columns:30px 1fr;gap:10px;}.step-badge{width:26px;height:26px;font-size:14px;}.step h2{font-size:clamp(20px,6vw,28px);}}
 @media (max-width:360px){.step{grid-template-columns:28px 1fr;gap:8px;}.step-badge{width:24px;height:24px;font-size:13px;}}
+
+/* Botón de idioma */
+.lang-switch {
+  margin-left: auto; /* lo empuja a la derecha */
+  background: transparent;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+.lang-switch:hover {
+  background: var(--pill);
+  color: var(--ink);
+  border-color: var(--coffee);
+}

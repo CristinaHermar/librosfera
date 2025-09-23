@@ -134,3 +134,19 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
 });
+
+
+const langBtn = document.getElementById("langToggle");
+
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    if (langBtn.textContent.includes("EN")) {
+      langBtn.textContent = "🌐 ES";
+      // Aquí podrías activar traducciones al inglés
+      // Ej: traducir textos dinámicamente o recargar versión EN
+    } else {
+      langBtn.textContent = "🌐 EN";
+      // Y aquí volver al español
+    }
+  });
+}
