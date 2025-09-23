@@ -25,7 +25,7 @@ const i18n = {
 
     chooseGenres: "Elige uno o más géneros",
     hint: "O pídele al destino que elija por ti.",
-    destinyBtn: "☕ Que el destino lo decida",
+    destinyBtn: "✨ Que el destino lo decida",
     resetBtn: "↺ Limpiar selección",
 
     refineSearch: "Afina tu búsqueda",
@@ -58,7 +58,7 @@ const i18n = {
 
     chooseGenres: "Choose one or more genres",
     hint: "Or let destiny decide for you.",
-    destinyBtn: "☕ Let destiny decide",
+    destinyBtn: "✨ Let destiny decide",
     resetBtn: "↺ Clear selection",
 
     refineSearch: "Refine your search",
