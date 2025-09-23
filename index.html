@@ -8,11 +8,11 @@
   <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS crítico inline para evitar parpadeo -->
+  <!-- CSS crítico inline para evitar que se vean ambas versiones del tagline en iPhone -->
   <style>
     .tagline-desktop{display:none !important;}
     .tagline-mobile{display:block !important;}
-    @media (min-width: 701px){
+    @media (min-width:701px){
       .tagline-desktop{display:block !important;}
       .tagline-mobile{display:none !important;}
     }
@@ -25,17 +25,13 @@
 <body>
   <header class="site-header">
     <div class="wrap header-inner">
+      <!-- Izquierda: marca -->
       <div class="brand">
         <span class="logo">📚</span>
         <div class="brand-text">
           <h1>Librosfera</h1>
-         
-          <div class="header-actions">
-            <button id="langToggle" class="btn lang-switch">🌐 EN</button>
-          </div>
-        </div>
-      
-          <!-- Versión escritorio -->
+
+          <!-- Versión escritorio/tablet (texto completo) -->
           <p class="tagline tagline-desktop">
             Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
             Historias con personajes fuera de lo común o imposibles de olvidar.
@@ -45,7 +41,7 @@
             pero que nos importa a los que buscamos buenas lecturas.
           </p>
 
-          <!-- Versión móvil -->
+          <!-- Versión móvil (acordeón con flechita ▸/▾) -->
           <details class="tagline-mobile">
             <summary>Acerca de esta guía</summary>
             <div class="tagline-content">
@@ -59,10 +55,13 @@
           </details>
         </div>
       </div>
+
+      <!-- Derecha: botón de idioma (siempre pegado a la derecha) -->
+      <button id="langToggle" class="btn lang-switch">🌐 EN</button>
     </div>
   </header>
 
-  <!-- CONTENIDO -->
+  <!-- CONTENIDO EN DOS COLUMNAS -->
   <main class="wrap two-cols">
     <!-- Columna izquierda -->
     <div class="main-col">
@@ -72,7 +71,7 @@
         <h2>Elige uno o más géneros</h2>
         <p class="hint">O pídele al destino que elija por ti.</p>
 
-        <!-- Botón CTA café -->
+        <!-- CTA café llamativo justo debajo del hint -->
         <div class="cta-row">
           <button id="destinyBtn" class="btn coffee huge">☕ Que el destino lo decida</button>
         </div>
@@ -80,7 +79,7 @@
         <!-- Géneros -->
         <div id="genresContainer" class="pill-group big"></div>
 
-        <!-- Acciones -->
+        <!-- Acciones secundarias -->
         <div class="inline-actions">
           <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
         </div>
@@ -112,7 +111,7 @@
       </section>
     </div>
 
-    <!-- Columna derecha -->
+    <!-- Columna derecha (isla café) -->
     <aside class="side-col">
       <div class="card coffee-box">
         <h3>☕ ¿Te sirvió?</h3>
@@ -123,5 +122,16 @@
       </div>
     </aside>
   </main>
+
+  <!-- (Opcional) Script mínimo para cambiar etiqueta del botón de idioma -->
+  <script>
+    const langBtn = document.getElementById("langToggle");
+    if (langBtn) {
+      langBtn.addEventListener("click", () => {
+        langBtn.textContent = langBtn.textContent.includes("EN") ? "🌐 ES" : "🌐 EN";
+        // Aquí podrías disparar la lógica real de traducción.
+      });
+    }
+  </script>
 </body>
 </html>

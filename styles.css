@@ -13,11 +13,34 @@ h1,h2,h3{font-family:Outfit,sans-serif;margin:0 0 8px;color:var(--ink);}
 h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
+/* ===== Header ===== */
 .site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);}
-.header-inner{display:flex;align-items:flex-start;padding:14px 0}
+.header-inner{
+  display:flex;
+  justify-content:space-between; /* marca a la izq, idioma a la der */
+  align-items:flex-start;
+  padding:14px 0;
+}
 .brand{display:flex;align-items:flex-start;gap:12px}
 .logo{font-size:28px}
 .brand-text{min-width:0}
+
+/* Botón de idioma: siempre a la derecha */
+.lang-switch{
+  background:transparent;
+  border:1px solid var(--line);
+  font-size:14px;
+  font-weight:600;
+  color:var(--muted);
+  border-radius:8px;
+  padding:6px 12px;
+  flex-shrink:0; /* evita que se comprima en móvil */
+}
+.lang-switch:hover{
+  background:var(--pill);
+  color:var(--ink);
+  border-color:var(--coffee);
+}
 
 /* ===== Tagline ===== */
 .tagline{
@@ -28,7 +51,7 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 }
 .tagline strong{color:var(--coffee);}
 
-/* Móvil: acordeón con flechita estilizada */
+/* Móvil: acordeón con flechita estilizada ▸/▾ sin caja */
 .tagline-mobile{
   margin-top:6px;
   background:none;
@@ -45,14 +68,14 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
   gap:6px;
   list-style:none;
 }
-.tagline-mobile summary::-webkit-details-marker{display:none;} /* quitamos flecha nativa */
+.tagline-mobile summary::-webkit-details-marker{display:none;} /* ocultamos flecha nativa */
 .tagline-mobile summary::before{
-  content:"▸"; /* flechita cerrada */
+  content:"▸"; /* cerrada */
   font-size:14px;
   transition:transform .2s;
 }
 .tagline-mobile[open] summary::before{
-  content:"▾"; /* flechita abierta */
+  content:"▾"; /* abierta */
 }
 .tagline-mobile .tagline-content{
   margin-top:6px;
@@ -104,38 +127,22 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
 .empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);background:#F9F5EE;}
 
 /* ===== Responsive ===== */
-@media (max-width:900px){.two-cols{flex-direction:column;}.side-col{max-width:none;width:100%;}.side-col .coffee-box{position:static;}}
-@media (max-width:700px){.wrap{padding:0 16px;}.results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}.btn.huge{width:100%;}}
-@media (max-width:430px){.step{grid-template-columns:30px 1fr;gap:10px;}.step-badge{width:26px;height:26px;font-size:14px;}.step h2{font-size:clamp(20px,6vw,28px);}}
-@media (max-width:360px){.step{grid-template-columns:28px 1fr;gap:8px;}.step-badge{width:24px;height:24px;font-size:13px;}}
-
-/*IDIOMA*/
-.header-inner {
-  display: flex;
-  justify-content: space-between; /* separa brand e idioma */
-  align-items: center;
-  padding: 14px 0;
+@media (max-width:900px){
+  .two-cols{flex-direction:column;}
+  .side-col{max-width:none;width:100%;}
+  .side-col .coffee-box{position:static;}
 }
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+@media (max-width:700px){
+  .wrap{padding:0 16px;}
+  .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .btn.huge{width:100%;}
 }
-
-/* Botón idioma */
-.lang-switch {
-  background: transparent;
-  border: 1px solid var(--line);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
+@media (max-width:430px){
+  .step{grid-template-columns:30px 1fr;gap:10px;}
+  .step-badge{width:26px;height:26px;font-size:14px;}
+  .step h2{font-size:clamp(20px,6vw,28px);}
 }
-.lang-switch:hover {
-  background: var(--pill);
-  color: var(--ink);
-  border-color: var(--coffee);
+@media (max-width:360px){
+  .step{grid-template-columns:28px 1fr;gap:8px;}
+  .step-badge{width:24px;height:24px;font-size:13px;}
 }
