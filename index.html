@@ -17,35 +17,52 @@
     <div class="wrap header-inner">
       <div class="brand">
         <span class="logo">📚</span>
-        <h1>Librosfera</h1>
-        <p class="tagline">
-          Recomendaciones para quienes buscan libros que atrapan, que dejan huella. 
-          Historias con personajes fuera de lo común o imposibles de olvidar. 
-          Aquí encontrarás lecturas que valen la pena. <br>
-          Además te señalamos las <strong>red flags</strong> que casi nadie menciona: 
-          lenguaje vulgar, referencias LGBT, relaciones tóxicas, violencia, tensión psicológica... 
-          pero que nos importan a los que buscamos buenas lecturas.
-        </p>
+        <div class="brand-text">
+          <h1>Librosfera</h1>
+
+          <!-- Versión escritorio/tablet -->
+          <p class="tagline tagline-desktop">
+            Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
+            Historias con personajes fuera de lo común o imposibles de olvidar.
+            Aquí encontrarás lecturas que valen la pena.
+            Además te señalamos las <strong>red flags</strong> que casi nadie menciona:
+            lenguaje vulgar, referencias LGBT, relaciones tóxicas, violencia, tensión psicológica...
+            pero que nos importa a los que buscamos buenas lecturas.
+          </p>
+
+          <!-- Versión móvil (acordeón) -->
+          <details class="tagline-mobile">
+            <summary>Acerca de esta guía</summary>
+            <div class="tagline-content">
+              Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
+              Historias con personajes fuera de lo común o imposibles de olvidar.
+              Aquí encontrarás lecturas que valen la pena.
+              Además te señalamos las <strong>red flags</strong> que casi nadie menciona:
+              lenguaje vulgar, referencias LGBT, relaciones tóxicas, violencia, tensión psicológica...
+              pero que nos importa a los que buscamos buenas lecturas.
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   </header>
 
   <!-- CONTENIDO EN DOS COLUMNAS -->
   <main class="wrap two-cols">
-    <!-- Columna izquierda: géneros, filtros y resultados -->
+    <!-- Columna izquierda -->
     <div class="main-col">
-      <!-- Paso 1: Género -->
+      <!-- Paso 1 -->
       <section class="card step">
         <div class="step-badge">1</div>
         <h2>Elige uno o más géneros</h2>
         <p class="hint">O pídele al destino que elija por ti.</p>
 
-        <!-- AHORA AQUÍ: CTA café llamativo -->
+        <!-- Botón CTA café llamativo -->
         <div class="cta-row">
-          <button id="destinyBtn" class="btn coffee huge">✨Que el destino lo decida✨ </button>
+          <button id="destinyBtn" class="btn coffee huge">☕ Que el destino lo decida</button>
         </div>
 
-        <!-- Lista de géneros -->
+        <!-- Géneros -->
         <div id="genresContainer" class="pill-group big"></div>
 
         <!-- Acciones secundarias -->
@@ -54,7 +71,7 @@
         </div>
       </section>
 
-      <!-- Paso 2: Filtros (oculto hasta elegir género) -->
+      <!-- Paso 2 -->
       <section id="advancedFilters" class="card step hidden">
         <div class="step-badge">2</div>
         <h2>Afina tu búsqueda</h2>
@@ -80,7 +97,7 @@
       </section>
     </div>
 
-    <!-- Columna derecha: ISLA de café -->
+    <!-- Columna derecha -->
     <aside class="side-col">
       <div class="card coffee-box">
         <h3>☕ ¿Te sirvió?</h3>
