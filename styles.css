@@ -29,8 +29,8 @@ h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
   position:sticky; top:0; z-index:20; background:var(--bg);
   backdrop-filter:saturate(1.2) blur(4px); border-bottom:1px solid var(--line);
 }
-.header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
-.brand{display:flex;align-items:center;gap:12px}
+.header-inner{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 0}
+.brand{display:flex;align-items:flex-start;gap:12px}
 .logo{font-size:28px}
 
 /* ===== Tagline bajo Librosfera ===== */
@@ -46,7 +46,6 @@ h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
   color: var(--coffee);
   font-weight: 600;
 }
-
 
 /* ===== Botones ===== */
 .btn{
@@ -75,24 +74,50 @@ h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
   border-color:var(--coffee-2);
   box-shadow:0 12px 26px rgba(139,94,52,.28);
 }
-.btn.huge{font-size:18px; padding:13px 13px; border-radius:14px}
+.btn.huge{font-size:18px; padding:14px 18px; border-radius:14px}
 
 /* ===== Tarjetas / pasos ===== */
 .card{
   background:var(--card); border:1px solid var(--line);
   border-radius:18px; padding:18px; box-shadow:0 12px 24px rgba(17,17,17,.04)
 }
-.step{position:relative; padding-left:60px; margin:18px 0}
-.step-badge{
-  position:absolute; left:18px; top:20px; width:30px; height:30px; border-radius:50%;
-  background:var(--pill); color:var(--pill-text);
-  display:grid; place-items:center; font-weight:800; font-family:Outfit; border:1px solid var(--line)
+
+/* Reestructuración en grid para badge + contenido */
+.step{
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  grid-column-gap: 12px;
+  align-items: start;
+  margin:18px 0;
+  padding-left: 16px; /* ya no enorme como antes */
 }
+.step-badge{
+  position: static;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background:var(--pill); color:var(--pill-text);
+  display:grid; place-items:center;
+  font-weight:800; font-family:Outfit; border:1px solid var(--line);
+  margin-top: 4px;
+}
+
+/* Todo el contenido textual dentro de la 2ª columna */
+.step h2,
+.step .hint,
+.step .cta-row,
+.step #genresContainer,
+.step .inline-actions,
+.step .filters,
+.step .actions,
+.step .subhint{
+  grid-column: 2;
+}
+
 .hint{color:var(--muted); font-size:14px; margin-top:2px}
 .subhint{color:#8a8a8a; font-size:12px; margin:10px 0 0}
 .hidden{display:none !important}
 
-/* Fila donde vive el CTA (debajo del hint) */
+/* Fila donde vive el CTA */
 .cta-row{margin:12px 0 8px}
 
 /* ===== Layout en dos columnas ===== */
@@ -139,9 +164,18 @@ select{padding:12px 12px; border-radius:12px; border:1px solid var(--line); back
 @media (max-width:700px){
   .wrap{padding:0 16px}
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-  .btn.huge{width:100%} /* CTA full-width en móvil */
+  .btn.huge{width:100%}
 }
-@media (max-width:560px){ .step{padding-left:54px} .card{padding:16px} }
+@media (max-width:430px){
+  .step{grid-template-columns:30px 1fr; grid-column-gap:10px}
+  .step-badge{width:26px; height:26px; font-size:14px}
+  .step h2{font-size:clamp(20px,6vw,28px); line-height:1.2}
+  .hint{font-size:13px}
+}
+@media (max-width:360px){
+  .step{grid-template-columns:28px 1fr; grid-column-gap:8px}
+  .step-badge{width:24px; height:24px; font-size:13px}
+}
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce){
