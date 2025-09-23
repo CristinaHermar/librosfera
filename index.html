@@ -8,6 +8,16 @@
   <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- CSS crítico inline para evitar parpadeo -->
+  <style>
+    .tagline-desktop{display:none !important;}
+    .tagline-mobile{display:block !important;}
+    @media (min-width: 701px){
+      .tagline-desktop{display:block !important;}
+      .tagline-mobile{display:none !important;}
+    }
+  </style>
+
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="app.js" defer></script>
@@ -20,7 +30,7 @@
         <div class="brand-text">
           <h1>Librosfera</h1>
 
-          <!-- Versión escritorio/tablet -->
+          <!-- Versión escritorio -->
           <p class="tagline tagline-desktop">
             Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
             Historias con personajes fuera de lo común o imposibles de olvidar.
@@ -30,7 +40,7 @@
             pero que nos importa a los que buscamos buenas lecturas.
           </p>
 
-          <!-- Versión móvil (acordeón) -->
+          <!-- Versión móvil -->
           <details class="tagline-mobile">
             <summary>Acerca de esta guía</summary>
             <div class="tagline-content">
@@ -47,7 +57,7 @@
     </div>
   </header>
 
-  <!-- CONTENIDO EN DOS COLUMNAS -->
+  <!-- CONTENIDO -->
   <main class="wrap two-cols">
     <!-- Columna izquierda -->
     <div class="main-col">
@@ -57,7 +67,7 @@
         <h2>Elige uno o más géneros</h2>
         <p class="hint">O pídele al destino que elija por ti.</p>
 
-        <!-- Botón CTA café llamativo -->
+        <!-- Botón CTA café -->
         <div class="cta-row">
           <button id="destinyBtn" class="btn coffee huge">☕ Que el destino lo decida</button>
         </div>
@@ -65,7 +75,7 @@
         <!-- Géneros -->
         <div id="genresContainer" class="pill-group big"></div>
 
-        <!-- Acciones secundarias -->
+        <!-- Acciones -->
         <div class="inline-actions">
           <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
         </div>
