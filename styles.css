@@ -20,21 +20,40 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .brand-text{min-width:0}
 
 /* ===== Tagline ===== */
-.tagline{font-size:14px;line-height:1.5;color:var(--muted);max-width:800px;}
+.tagline{
+  font-size:14px;
+  line-height:1.5;
+  color:var(--muted);
+  max-width:800px;
+}
 .tagline strong{color:var(--coffee);}
 
-/* Versión móvil: acordeón sencillo */
-.tagline-mobile{margin-top:6px;background:none;border:none;border-radius:0;padding:0;}
+/* Móvil: acordeón con flechita estilizada */
+.tagline-mobile{
+  margin-top:6px;
+  background:none;
+  border:none;
+  padding:0;
+}
 .tagline-mobile summary{
   cursor:pointer;
   font-weight:600;
   font-family:Inter, sans-serif;
   color:var(--muted);
-  display:inline-flex;align-items:center;gap:4px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  list-style:none;
 }
-.tagline-mobile summary::-webkit-details-marker{display:auto;} /* usamos flecha nativa */
-.tagline-mobile summary::after{content:"";} /* quitamos flecha custom */
-.tagline-mobile[open] summary::after{content:"";}
+.tagline-mobile summary::-webkit-details-marker{display:none;} /* quitamos flecha nativa */
+.tagline-mobile summary::before{
+  content:"▸"; /* flechita cerrada */
+  font-size:14px;
+  transition:transform .2s;
+}
+.tagline-mobile[open] summary::before{
+  content:"▾"; /* flechita abierta */
+}
 .tagline-mobile .tagline-content{
   margin-top:6px;
   font-size:14px;
