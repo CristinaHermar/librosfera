@@ -7,7 +7,7 @@
   --line:#EFE6DA;          /* bordes suaves arena */
   --pill:#F0E4D3;          /* beige café claro (selección) */
   --pill-text:#111111;
-  --brand:#3A7AFE;         /* azul del botón azar (se mantiene) */
+  --brand:#3A7AFE;         /* azul CTA secundario */
   --accent:#6a4cff;        /* acento morado para CTA secundario */
 }
 
@@ -43,7 +43,6 @@ h3{font-weight:700}
 .header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{font-size:28px}
-.header-actions .btn.big{font-size:16px;padding:10px 16px;border-radius:12px}
 
 /* ===== Botones ===== */
 .btn{
@@ -55,6 +54,18 @@ h3{font-weight:700}
 .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.ghost{border-style:dashed;color:var(--muted);background:transparent}
+.btn.big{font-size:16px}
+
+/* Botón estilo café (para “destino”) */
+.btn.coffee{
+  background:#C9A66B;   /* café claro */
+  border-color:#C9A66B;
+  color:#fff;
+}
+.btn.coffee:hover{
+  background:#B08855;
+  border-color:#B08855;
+}
 
 /* ===== Tarjetas / pasos ===== */
 .card{
@@ -116,7 +127,7 @@ select{
   background:#F9F5EE; color:var(--ink)
 }
 .actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-.inline-actions{margin-top:8px}
+.inline-actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
 
 .results-section{min-height:80px}
 .results-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:8px}
@@ -142,7 +153,6 @@ select{
 }
 @media (max-width:700px){
   .wrap{padding:0 16px}
-  .header-actions .btn.big{width:100%}
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 }
 @media (max-width:560px){
