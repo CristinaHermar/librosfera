@@ -33,12 +33,12 @@
 
           <!-- Versión escritorio/tablet (texto completo) -->
           <p class="tagline tagline-desktop">
-            aaaaaaaaaaaaaRecomendaciones para quienes buscan libros que atrapan, que dejan huella.
+            Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
             Historias con personajes fuera de lo común o imposibles de olvidar.
             Aquí encontrarás lecturas que valen la pena.
             Además te señalamos las <strong>red flags</strong> que casi nadie menciona:
             lenguaje vulgar, referencias LGBT, relaciones tóxicas, violencia, tensión psicológica...
-            porque esto importa a quienes buscamos buenas lecturas.
+            pero que nos importa a los que buscamos buenas lecturas.
           </p>
 
           <!-- Versión móvil (acordeón con flechita ▸/▾) -->
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <!-- Derecha: botón de idioma (siempre pegado a la derecha) -->
+      <!-- Derecha: botón de idioma (siempre a la derecha) -->
       <button id="langToggle" class="btn lang-switch">🌐 EN</button>
     </div>
   </header>
@@ -76,7 +76,7 @@
           <button id="destinyBtn" class="btn coffee huge">☕ Que el destino lo decida</button>
         </div>
 
-        <!-- Géneros -->
+        <!-- 🚨 Géneros (siempre presente) -->
         <div id="genresContainer" class="pill-group big"></div>
 
         <!-- Acciones secundarias -->
@@ -116,15 +116,15 @@
       <div class="card coffee-box">
         <h3>☕ ¿Te sirvió?</h3>
         <p>Invítame un café para poder seguir con este increíble proyecto ✨</p>
+        <!-- Mismo tono que “Ver recomendaciones”: usamos .btn.accent -->
         <a class="btn accent" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">
           ☕ Invítame un café
         </a>
-        
       </div>
     </aside>
   </main>
 
-  <!-- (Opcional) Script mínimo para cambiar etiqueta del botón de idioma -->
+  <!-- (Opcional) Script mínimo para alternar etiqueta del botón de idioma -->
   <script>
     const langBtn = document.getElementById("langToggle");
     if (langBtn) {
