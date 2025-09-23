@@ -56,30 +56,34 @@ select{padding:10px 12px;border-radius:10px;border:1px solid #cfd3e1;background:
 .hint{color:var(--muted);font-size:13px;margin-top:2px}
 .subhint{color:#889; font-size:12px;margin:10px 0 0}
 
-/* Café inline */
-.coffee-inline {
+/* Banner café */
+.coffee-banner {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 14px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 16px 22px;
-  margin: 24px auto;
-  max-width: 800px;
-  box-shadow: 0 4px 12px rgba(10,22,70,.04);
+  background: var(--brand-2);
+  color: #fff;
+  padding: 16px 24px;
   font-size: 15px;
 }
-.coffee-inline span {
-  flex: 1;
+.coffee-banner .btn {
+  background: #fff;
+  color: var(--brand);
+  border-color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
 }
-.coffee-inline .btn {
-  flex-shrink: 0;
+.coffee-banner .btn:hover {
+  transform: translateY(-2px);
 }
 
-@media (max-width:560px){
-  .step{padding-left:52px}
-  .btn.big{width:100%}
-  .coffee-inline{flex-direction:column;gap:10px;text-align:center}
+@media (max-width:600px){
+  .coffee-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .coffee-banner .btn {
+    width: 100%;
+  }
 }
