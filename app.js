@@ -43,7 +43,7 @@ const i18n = {
     loadingCatalog: "Cargando catálogo…",
     noGenresFound: "No encontré géneros.",
     noMatches: "No hay coincidencias con esos filtros 😢",
-    pickOrDestiny: "Elige al menos un <strong>género</strong> o pulsa <strong>☕ Que el destino lo decida</strong>."
+    pickOrDestiny: "Elige al menos un <strong>género</strong> o pulsa <strong> ✨Que el destino lo decida</strong>."
   },
   en: {
     brand: "Librosfera",
@@ -76,7 +76,7 @@ const i18n = {
     loadingCatalog: "Loading catalog…",
     noGenresFound: "No genres found.",
     noMatches: "No matches with those filters 😢",
-    pickOrDestiny: "Pick at least one <strong>genre</strong> or press <strong>☕ Let destiny decide</strong>."
+    pickOrDestiny: "Pick at least one <strong>genre</strong> or press <strong>✨ Let destiny decide</strong>."
   }
 };
 
