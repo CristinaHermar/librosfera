@@ -33,13 +33,12 @@ h1,h2,h3{font-family:Lora,serif;margin:0 0 6px}
 .btn.ghost{border-style:dashed;color:var(--muted);background:transparent}
 
 /* Tarjetas y pasos */
-.main{display:flex;flex-direction:column;gap:16px;margin:16px 0 28px}
 .card{
   background:var(--white); border:1px solid var(--line);
   border-radius:14px; padding:16px;
   box-shadow:0 6px 16px rgba(10,22,70,.04)
 }
-.step{position:relative;padding-left:56px}
+.step{position:relative;padding-left:56px;margin:16px 0}
 .step-badge{
   position:absolute; left:16px; top:18px;
   width:28px; height:28px; border-radius:50%;
@@ -48,16 +47,32 @@ h1,h2,h3{font-family:Lora,serif;margin:0 0 6px}
 }
 .hidden{display:none !important}
 
-/* Dos columnas */
-.two-cols{display:flex; gap:20px; align-items:flex-start}
-.main-col{flex:3; display:flex; flex-direction:column; gap:16px}
-.side-col{flex:1; max-width:280px}
-.side-col .card{position:sticky; top:100px}
+/* ===== Layout en dos columnas ===== */
+.two-cols{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+  margin:20px 0 28px;
+}
+.main-col{
+  flex:3;                 /* columna amplia */
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.side-col{
+  flex:1;                 /* columna angosta */
+  max-width:300px;
+}
+.side-col .coffee-box{
+  position:sticky;
+  top:100px;              /* “pega” la isla al hacer scroll */
+}
 
 /* Isla café */
 .coffee-box{text-align:center}
-.coffee-box h3{margin-top:0}
-.coffee-box p{font-size:14px;color:var(--muted);margin:8px 0 14px}
+.coffee-box h3{margin:0 0 8px}
+.coffee-box p{font-size:14px;color:var(--muted);margin:8px 0 16px}
 
 /* Pills (Géneros) */
 .pill-group{display:flex;flex-wrap:wrap;gap:10px}
@@ -105,7 +120,6 @@ select{
   .two-cols{flex-direction:column}
   .side-col{max-width:none;width:100%}
 }
-
 @media (max-width:560px){
   .step{padding-left:52px}
   .btn.big{width:100%}
