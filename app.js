@@ -27,7 +27,7 @@ function applyFilters(){
   return list;
 }
 
-// Render de géneros con toggles (igual)
+// Render géneros con pills “beige” al seleccionar
 function renderGenres(){
   const cont=$('#genresContainer');
   cont.innerHTML="";
@@ -55,10 +55,12 @@ function updateOpts(){
   if(!SELECTED_TONE&&tones.length===1){SELECTED_TONE=tones[0];toneSel.value=SELECTED_TONE}
   if(!SELECTED_PACE&&paces.length===1){SELECTED_PACE=paces[0];paceSel.value=SELECTED_PACE}
 }
+
 function renderEmpty(){
   const root=$('#results');
   root.innerHTML=`<div class='empty'>Elige al menos un <strong>género</strong> o pulsa <strong>🎲 Sorpresa al azar</strong>.</div>`;
 }
+
 function renderResults(list){
   const root=$('#results'); root.innerHTML="";
   if(!list.length){root.innerHTML='<div class="empty">No hay coincidencias con esos filtros 😢</div>';return}
@@ -76,7 +78,7 @@ function renderResults(list){
   });
 }
 
-// Mostrar/ocultar filtros avanzados
+// Visibilidad condicional
 function updateVisibility(){
   const adv=$('#advancedFilters');
   if(SELECTED_GENRES.size>0){
@@ -85,8 +87,7 @@ function updateVisibility(){
     adv.classList.add('hidden');
     SELECTED_TONE=""; SELECTED_PACE="";
     const tSel=$('#toneSelect'), pSel=$('#paceSelect');
-    if(tSel) tSel.value="";
-    if(pSel) pSel.value="";
+    if(tSel) tSel.value=""; if(pSel) pSel.value="";
   }
 }
 

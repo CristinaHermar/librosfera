@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Librosfera · Encuentra tu próxima lectura</title>
 
-  <!-- Tipografía: Inter (títulos y texto, estilo limpio como la muestra) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tipografías estilo maqueta: Outfit (titulares) + Inter (texto) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -17,7 +17,7 @@
     <div class="wrap header-inner">
       <div class="brand">
         <span class="logo">📚</span>
-        <h1 class="title-sans">Librosfera</h1>
+        <h1>Librosfera</h1>
       </div>
       <div class="header-actions">
         <button id="randomBtn" class="btn primary big">🎲 Sorpresa al azar</button>
@@ -25,29 +25,25 @@
     </div>
   </header>
 
-  <!-- CONTENIDO EN DOS COLUMNAS (se mantiene igual que teníamos) -->
+  <!-- CONTENIDO EN DOS COLUMNAS -->
   <main class="wrap two-cols">
-    <!-- Columna izquierda -->
+    <!-- Columna izquierda: géneros, filtros y resultados -->
     <div class="main-col">
-
       <!-- Paso 1: Género -->
       <section class="card step">
         <div class="step-badge">1</div>
-        <h2 class="title-sans">Elige uno o más géneros</h2>
+        <h2>Elige uno o más géneros</h2>
         <p class="hint">Solo con esto ya puedo afinarte el resto. Después verás más opciones.</p>
-
-        <!-- Menú de géneros (mismo id para que el JS siga funcionando) -->
-        <div id="genresContainer" class="pill-group modern"></div>
-
+        <div id="genresContainer" class="pill-group big"></div>
         <div class="inline-actions">
           <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
         </div>
       </section>
 
-      <!-- Paso 2 (igual) -->
+      <!-- Paso 2: Filtros (oculto hasta elegir género) -->
       <section id="advancedFilters" class="card step hidden">
         <div class="step-badge">2</div>
-        <h2 class="title-sans">Afina tu búsqueda</h2>
+        <h2>Afina tu búsqueda</h2>
         <div class="filters">
           <label class="field">
             <span>Tono</span>
@@ -64,16 +60,16 @@
         <p class="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
       </section>
 
-      <!-- Resultados (igual) -->
+      <!-- Resultados -->
       <section class="results-section">
         <div id="results" class="results-grid"></div>
       </section>
     </div>
 
-    <!-- Columna derecha: isla café (igual) -->
+    <!-- Columna derecha: ISLA de café -->
     <aside class="side-col">
       <div class="card coffee-box">
-        <h3 class="title-sans">☕ ¿Te sirvió?</h3>
+        <h3>☕ ¿Te sirvió?</h3>
         <p>Invítame un café para poder seguir dándote estas recomendaciones tan personalizadas ✨</p>
         <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">
           ☕ Invítame un café
