@@ -11,43 +11,60 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="wrap">
-      <div class="brand"><span class="logo">📚</span><h1>Librosfera</h1></div>
-      <nav class="tabs">
-        <button class="tab-btn active" data-tab="reco">Recomendador</button>
-        <button class="tab-btn" data-tab="coffee">Buy me a coffee ☕</button>
-      </nav>
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="logo">📚</span>
+        <h1>Librosfera</h1>
+      </div>
+      <div class="header-actions">
+        <!-- Botón de sorpresa al azar SIEMPRE visible y hasta arriba -->
+        <button id="randomBtn" class="btn primary big">🎲 Sorpresa al azar</button>
+      </div>
     </div>
   </header>
-  <main class="wrap">
-    <section id="reco" class="tab-panel is-visible">
-      <h2>Elige filtros o deja que el destino decida</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>🎭 Géneros</h3>
-          <div id="genresContainer" class="pill-group"></div>
-          <p class="hint">Activa varias opciones si quieres combinar génerossssss.</p>
-        </div>
-        <div class="card">
-          <h3>🎨 Tono / Ritmo</h3>
-          <label>Tono <select id="toneSelect"><option value="">(cualquiera)</option></select></label>
-          <label>Ritmo <select id="paceSelect"><option value="">(cualquiera)</option></select></label>
-          <div class="actions">
-            <button id="applyFiltersBtn" class="btn primary">✨ Descubrir lecturas</button>
-            <button id="randomBtn" class="btn">🎲 Sorpresa al azar</button>
-            <button id="resetBtn" class="btn ghost">↺ Restablecer</button>
-          </div>
-          <p class="subhint">No mostraremos resultados hasta que presiones “✨ Descubrir lecturas”.</p>
-        </div>
+
+  <main class="wrap main">
+    <!-- Paso 1: Seleccionar género -->
+    <section class="card step">
+      <div class="step-badge">1</div>
+      <h2>Elige uno o más géneros</h2>
+      <p class="hint">Solo con esto ya puedo afinarte el resto. Después verás más opciones.</p>
+      <div id="genresContainer" class="pill-group big"></div>
+      <div class="inline-actions">
+        <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
       </div>
+    </section>
+
+    <!-- Paso 2: Filtros avanzados (se ocultan hasta elegir género) -->
+    <section id="advancedFilters" class="card step hidden">
+      <div class="step-badge">2</div>
+      <h2>Afina tu búsqueda</h2>
+      <div class="filters">
+        <label class="field">
+          <span>Tono</span>
+          <select id="toneSelect"><option value="">(cualquiera)</option></select>
+        </label>
+        <label class="field">
+          <span>Ritmo</span>
+          <select id="paceSelect"><option value="">(cualquiera)</option></select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="applyFiltersBtn" class="btn accent">✨ Ver recomendaciones</button>
+      </div>
+      <p class="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
+    </section>
+
+    <!-- Resultados -->
+    <section class="results-section">
       <div id="results" class="results-grid"></div>
     </section>
-    <section id="coffee" class="tab-panel" hidden>
-      <div class="card narrow">
-        <h3>☕ Buy me a coffee</h3>
-        <p>Si estas recomendaciones te sirven, invítame un café ✨</p>
-        <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank">☕ Invitar café</a>
-      </div>
+
+    <!-- Café -->
+    <section class="card narrow coffee">
+      <h3>☕ ¿Te sirvió?</h3>
+      <p>Si estas recomendaciones te sirven, invítame un café ✨</p>
+      <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">☕ Invitar café</a>
     </section>
   </main>
 </body>
