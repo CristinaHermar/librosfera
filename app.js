@@ -1,10 +1,10 @@
-// Fuente de datos
+// Fuente de datos (CSV público de Google Sheets)
 const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv';
 
 // Estado
 let CATALOG=[],SELECTED_GENRES=new Set(),SELECTED_TONE="",SELECTED_PACE="",HAS_TRIGGERED=false;
 
-// Utils
+// Helpers
 const $=s=>document.querySelector(s);
 function splitGenres(g){return String(g).split(',').map(s=>s.trim()).filter(Boolean)}
 function unique(arr){return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}))}
@@ -83,7 +83,9 @@ function updateVisibility(){
   }else{
     adv.classList.add('hidden');
     SELECTED_TONE=""; SELECTED_PACE="";
-    $('#toneSelect').value=""; $('#paceSelect').value="";
+    const tSel=$('#toneSelect'), pSel=$('#paceSelect');
+    if(tSel) tSel.value="";
+    if(pSel) pSel.value="";
   }
 }
 
@@ -105,8 +107,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       renderGenres(); updateOpts(); renderEmpty(); updateVisibility();
 
       // events
-      $('#toneSelect').onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
-      $('#paceSelect').onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
       $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
       $('#randomBtn').onclick=()=>{
         const pool=applyFilters().length?applyFilters():CATALOG;

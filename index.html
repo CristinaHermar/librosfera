@@ -17,58 +17,64 @@
         <h1>Librosfera</h1>
       </div>
       <div class="header-actions">
+        <!-- Botón de sorpresa al azar SIEMPRE arriba -->
         <button id="randomBtn" class="btn primary big">🎲 Sorpresa al azar</button>
       </div>
     </div>
   </header>
-<!-- Botón lateral: Invítame un café -->
-<a class="coffee-side" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">
-  INVÍTAME UN CAFÉ
-</a>
-  <main class="wrap main">
-    <!-- Paso 1: Seleccionar género -->
-    <section class="card step">
-      <div class="step-badge">1</div>
-      <h2>Elige uno o más géneros</h2>
-      <p class="hint">Solo con esto ya puedo afinarte el resto. Después verás más opciones.</p>
-      <div id="genresContainer" class="pill-group big"></div>
-      <div class="inline-actions">
-        <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
-      </div>
-    </section>
 
-    <!-- Paso 2: Filtros avanzados -->
-    <section id="advancedFilters" class="card step hidden">
-      <div class="step-badge">2</div>
-      <h2>Afina tu búsqueda</h2>
-      <div class="filters">
-        <label class="field">
-          <span>Tono</span>
-          <select id="toneSelect"><option value="">(cualquiera)</option></select>
-        </label>
-        <label class="field">
-          <span>Ritmo</span>
-          <select id="paceSelect"><option value="">(cualquiera)</option></select>
-        </label>
-      </div>
-      <div class="actions">
-        <button id="applyFiltersBtn" class="btn accent">✨ Ver recomendaciones</button>
-      </div>
-      <p class="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
-    </section>
+  <!-- CONTENIDO EN DOS COLUMNAS -->
+  <main class="wrap main two-cols">
+    <!-- Columna izquierda -->
+    <div class="main-col">
 
-    <!-- Resultados -->
-    <section class="results-section">
-      <div id="results" class="results-grid"></div>
-    </section>
+      <!-- Paso 1: Género -->
+      <section class="card step">
+        <div class="step-badge">1</div>
+        <h2>Elige uno o más géneros</h2>
+        <p class="hint">Solo con esto ya puedo afinarte el resto. Después verás más opciones.</p>
+        <div id="genresContainer" class="pill-group big"></div>
+        <div class="inline-actions">
+          <button id="resetBtn" class="btn ghost">↺ Limpiar selección</button>
+        </div>
+      </section>
+
+      <!-- Paso 2: Filtros (se oculta hasta elegir género) -->
+      <section id="advancedFilters" class="card step hidden">
+        <div class="step-badge">2</div>
+        <h2>Afina tu búsqueda</h2>
+        <div class="filters">
+          <label class="field">
+            <span>Tono</span>
+            <select id="toneSelect"><option value="">(cualquiera)</option></select>
+          </label>
+          <label class="field">
+            <span>Ritmo</span>
+            <select id="paceSelect"><option value="">(cualquiera)</option></select>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="applyFiltersBtn" class="btn accent">✨ Ver recomendaciones</button>
+        </div>
+        <p class="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
+      </section>
+
+      <!-- Resultados -->
+      <section class="results-section">
+        <div id="results" class="results-grid"></div>
+      </section>
+    </div>
+
+    <!-- Columna derecha: isla café -->
+    <aside class="side-col">
+      <div class="card coffee-box">
+        <h3>☕ ¿Te sirvió?</h3>
+        <p>Invítame un café para poder seguir dándote estas recomendaciones tan personalizadas ✨</p>
+        <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">
+          ☕ Invítame un café
+        </a>
+      </div>
+    </aside>
   </main>
-
-  <!-- Banner café -->
-  <div class="coffee-banner">
-    <span>☕ ¿Te sirvió? Invítame un café para poder seguir dándote estas recomendaciones tan personalizadas ✨</span>
-    <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener">
-      ☕ Invítame un café
-    </a>
-  </div>
 </body>
 </html>
