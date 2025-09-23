@@ -27,7 +27,7 @@ function applyFilters(){
   return list;
 }
 
-// Render
+// Render de géneros con toggles (igual)
 function renderGenres(){
   const cont=$('#genresContainer');
   cont.innerHTML="";
@@ -45,6 +45,7 @@ function renderGenres(){
     cont.appendChild(b);
   });
 }
+
 function updateOpts(){
   const base=applyFilters();
   const tones=unique(base.map(r=>r.tono)), paces=unique(base.map(r=>r.ritmo));
@@ -75,7 +76,7 @@ function renderResults(list){
   });
 }
 
-// Visibilidad condicional
+// Mostrar/ocultar filtros avanzados
 function updateVisibility(){
   const adv=$('#advancedFilters');
   if(SELECTED_GENRES.size>0){
@@ -106,7 +107,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       CATALOG=res.data.map(normalizeRow);
       renderGenres(); updateOpts(); renderEmpty(); updateVisibility();
 
-      // events
       const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
       if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
       if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};

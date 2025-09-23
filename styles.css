@@ -1,173 +1,104 @@
-/* ===================== */
-/* Base / Theme          */
-/* ===================== */
+/* ===== Base / Tema ===== */
 :root{
-  --ink:#0f1222; --muted:#667; --line:#e3e7f3; --bg:#f6f7ff; --white:#fff;
+  --ink:#0f1222; --muted:#5f6573; --line:#e7ebf4; --bg:#fafbff; --white:#fff;
   --brand:#3a7afe; --brand-2:#5e9bff; --accent:#6a4cff;
+  --pill-selected:#eadfc8;      /* café claro para selección */
+  --pill-text:#1a1f2b;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  margin:0; background:var(--bg); color:var(--ink);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  margin:0; background:var(--bg); color:var(--ink)
 }
-h1,h2,h3{font-family:Lora,serif;margin:0 0 6px;line-height:1.15}
+.title-sans{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+h1,h2,h3{margin:0 0 6px;line-height:1.15}
 .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 24px}
 
-/* ===================== */
-/* Header                */
-/* ===================== */
-.site-header{
-  position:sticky; top:0; background:var(--white);
-  border-bottom:1px solid var(--line); z-index:20
-}
+/* ===== Header ===== */
+.site-header{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--line);z-index:20}
 .header-inner{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:12px}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{font-size:26px}
 .header-actions{display:flex;align-items:center}
 .btn.big{font-size:16px;padding:10px 16px;border-radius:12px}
 
-/* ===================== */
-/* Buttons               */
-/* ===================== */
+/* ===== Botones ===== */
 .btn{
-  padding:8px 14px; border-radius:10px; border:1px solid #cfd3e1;
-  background:var(--white); cursor:pointer; transition:.15s transform ease
+  padding:8px 14px;border-radius:10px;border:1px solid #cfd3e1;background:var(--white);
+  cursor:pointer;transition:.15s transform ease
 }
 .btn:hover{transform:translateY(-1px)}
 .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.ghost{border-style:dashed;color:var(--muted);background:transparent}
 
-/* ===================== */
-/* Cards / Steps         */
-/* ===================== */
-.card{
-  background:var(--white); border:1px solid var(--line);
-  border-radius:14px; padding:16px;
-  box-shadow:0 6px 16px rgba(10,22,70,.04)
-}
+/* ===== Tarjetas / Pasos ===== */
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 6px 16px rgba(10,22,70,.04)}
 .step{position:relative;padding-left:56px;margin:16px 0}
 .step-badge{
-  position:absolute; left:16px; top:18px;
-  width:28px; height:28px; border-radius:50%;
-  background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff;
-  display:grid; place-items:center; font-weight:700
+  position:absolute;left:16px;top:18px;width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;display:grid;place-items:center;font-weight:700
 }
 .hidden{display:none !important}
 
-/* ===================== */
-/* Two-column layout     */
-/* ===================== */
-.two-cols{
-  display:flex;
-  gap:24px;
-  align-items:flex-start;
-  margin:20px 0 28px;
-}
-.main-col{
-  flex:3;                 /* columna principal amplia */
-  min-width:0;            /* evita overflow en flex */
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-.side-col{
-  flex:1;                 /* sidebar más angosto */
-  max-width:320px;
-}
-.side-col .coffee-box{
-  position:sticky;
-  top:100px;              /* “pega” la isla al hacer scroll */
-}
-
-/* Isla café */
+/* ===== Layout dos columnas (sin cambios funcionales) ===== */
+.two-cols{display:flex;gap:24px;align-items:flex-start;margin:20px 0 28px}
+.main-col{flex:3;min-width:0;display:flex;flex-direction:column;gap:16px}
+.side-col{flex:1;max-width:320px}
+.side-col .coffee-box{position:sticky;top:100px}
 .coffee-box{text-align:center}
-.coffee-box h3{margin:0 0 8px}
 .coffee-box p{font-size:14px;color:var(--muted);margin:8px 0 16px}
 
-/* ===================== */
-/* Genres (pills)        */
-/* ===================== */
-.pill-group{display:flex;flex-wrap:wrap;gap:10px}
-.pill-group.big button{padding:10px 14px;font-weight:600}
-.pill-group button{
-  padding:6px 12px; border-radius:999px; border:1px solid #cfd3e1;
-  background:#eef3ff; color:#1b2a4a; cursor:pointer; transition:.12s
+/* ===== MENÚ DE GÉNEROS — estilo “moderno” ===== */
+.pill-group.modern{
+  display:flex;flex-wrap:wrap;gap:14px 18px; /* espacio horizontal un poco mayor */
+  margin-top:8px;
 }
-.pill-group button:hover{border-color:var(--brand)}
-.pill-group button.active{
-  background:#dbe8ff; border-color:var(--brand);
-  box-shadow:0 0 0 2px rgba(58,122,254,.12)
+.pill-group.modern button{
+  appearance:none;border:none;background:transparent;color:var(--pill-text);
+  font:600 16px/1 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  padding:10px 14px;border-radius:999px;cursor:pointer;transition:background .15s ease, transform .1s ease, box-shadow .15s ease;
+  letter-spacing:.1px;
+}
+.pill-group.modern button:hover{transform:translateY(-1px)}
+/* Estado seleccionado (café claro) */
+.pill-group.modern button.active{
+  background:var(--pill-selected);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
 }
 
-/* ===================== */
-/* Filters & Results     */
-/* ===================== */
+/* ===== Filtros / Resultados (igual) ===== */
 .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:6px}
 .field{display:flex;flex-direction:column;gap:6px}
-select{
-  padding:10px 12px; border-radius:10px;
-  border:1px solid #cfd3e1; background:#f9fbff
-}
+select{padding:10px 12px;border-radius:10px;border:1px solid #cfd3e1;background:#f9fbff}
 .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .inline-actions{margin-top:8px}
 
 .results-section{min-height:80px}
 .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:8px}
-.book{
-  background:var(--white); border:1px solid var(--line);
-  border-radius:12px; padding:14px; box-shadow:0 2px 8px rgba(10,22,70,.05)
-}
+.book{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(10,22,70,.05)}
 .book h3{margin:0 0 8px}
 .sep{border:none;border-top:1px dashed var(--line);margin:8px 0}
-.empty{
-  border:1px dashed #cfd3e1; border-radius:12px; padding:18px;
-  text-align:center; color:var(--muted); background:#f8faff
-}
+.empty{border:1px dashed #cfd3e1;border-radius:12px;padding:18px;text-align:center;color:var(--muted);background:#f8faff}
 
-/* ===================== */
-/* Text helpers          */
-/* ===================== */
 .hint{color:var(--muted);font-size:13px;margin-top:2px}
 .subhint{color:#889;font-size:12px;margin:10px 0 0}
 
-/* ===================== */
-/* Responsiveness        */
-/* ===================== */
-
-/* XL (>= 1280px): aumenta ancho máximo */
-@media (min-width:1280px){
-  .wrap{max-width:1200px}
-}
-
-/* LG (<= 1100px): sidebar más angosta */
-@media (max-width:1100px){
-  .side-col{max-width:280px}
-}
-
-/* MD (<= 900px): apila columnas y desactiva sticky para evitar saltos */
+/* ===== Responsivo ===== */
+@media (min-width:1280px){ .wrap{max-width:1200px} }
 @media (max-width:900px){
   .two-cols{flex-direction:column}
   .side-col{max-width:none;width:100%}
   .side-col .coffee-box{position:static}
 }
-
-/* SM (<= 700px): botones grandes full width, padding más compacto */
 @media (max-width:700px){
   .wrap{padding:0 16px}
   .btn.big{width:100%}
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 }
-
-/* XS (<= 560px): pasos más compactos */
 @media (max-width:560px){
   .step{padding-left:52px}
-  .card{padding:14px}
+  .card{padding:16px}
 }
-
-/* Accesibilidad: reduce animaciones si el usuario lo pide */
-@media (prefers-reduced-motion: reduce){
-  .btn:hover{transform:none}
-}
+@media (prefers-reduced-motion:reduce){ .btn:hover{transform:none} }
