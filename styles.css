@@ -107,10 +107,21 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;}
 .step{display:grid;grid-template-columns:36px 1fr;gap:12px;margin:18px 0;align-items:start;}
 .step-badge{width:30px;height:30px;border-radius:50%;background:var(--pill);display:grid;place-items:center;font-weight:800;font-family:Outfit;border:1px solid var(--line);}
-.step h2,.step .hint,.step .cta-row,.step #genresContainer,.step .inline-actions,.step .filters,.step .actions,.step .subhint{grid-column:2;}
+.step h2,.step .hint,.step .cta-row,.step #genresContainer,.step .filters,.step .actions,.step .subhint{grid-column:2;}
 .hint{color:var(--muted);font-size:14px;}
 .cta-row{margin:12px 0 8px;}
 .hidden{display:none!important;}
+
+/* ===== Botón limpiar fuera del card ===== */
+.reset-top{
+  display:flex;
+  justify-content:flex-end;
+  margin:10px 0 -6px; /* queda visualmente pegado al card */
+}
+.reset-top .btn{
+  font-size:14px;
+  padding:6px 12px;
+}
 
 /* ===== Layout columnas ===== */
 .two-cols{display:flex;gap:28px;margin:22px 0;}
