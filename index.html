@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Librosfera · Encuentra tu próxima lectura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <div class="brand"><span class="logo">📚</span><h1>Librosfera</h1></div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="reco">Recomendador</button>
+        <button class="tab-btn" data-tab="coffee">Buy me a coffee ☕</button>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section id="reco" class="tab-panel is-visible">
+      <h2>Elige filtros o deja que el destino decida</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🎭 Géneros</h3>
+          <div id="genresContainer" class="pill-group"></div>
+          <p class="hint">Activa varias opciones si quieres combinar génerossssss.</p>
+        </div>
+        <div class="card">
+          <h3>🎨 Tono / Ritmo</h3>
+          <label>Tono <select id="toneSelect"><option value="">(cualquiera)</option></select></label>
+          <label>Ritmo <select id="paceSelect"><option value="">(cualquiera)</option></select></label>
+          <div class="actions">
+            <button id="applyFiltersBtn" class="btn primary">✨ Descubrir lecturas</button>
+            <button id="randomBtn" class="btn">🎲 Sorpresa al azar</button>
+            <button id="resetBtn" class="btn ghost">↺ Restablecer</button>
+          </div>
+          <p class="subhint">No mostraremos resultados hasta que presiones “✨ Descubrir lecturas”.</p>
+        </div>
+      </div>
+      <div id="results" class="results-grid"></div>
+    </section>
+    <section id="coffee" class="tab-panel" hidden>
+      <div class="card narrow">
+        <h3>☕ Buy me a coffee</h3>
+        <p>Si estas recomendaciones te sirven, invítame un café ✨</p>
+        <a class="btn primary" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank">☕ Invitar café</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

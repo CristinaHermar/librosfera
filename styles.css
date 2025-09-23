@@ -1,0 +1,24 @@
+body{font-family:Inter,sans-serif;margin:0;background:#fafbff;color:#0f1222}
+h1,h2,h3{font-family:Lora,serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.site-header{background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0}
+.brand{display:flex;align-items:center;gap:8px;padding:12px 0}
+.logo{font-size:24px}
+.tabs{display:flex;gap:10px;margin-bottom:10px}
+.tab-btn{padding:6px 14px;border:1px solid #ccc;border-radius:20px;background:#fff;cursor:pointer}
+.tab-btn.active{background:#eaf1ff;border-color:#3a7afe}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.card.narrow{max-width:600px;margin:20px auto}
+.pill-group{display:flex;flex-wrap:wrap;gap:8px}
+.pill-group button{padding:6px 12px;border-radius:20px;border:1px solid #ccc;cursor:pointer;background:#f1f4ff}
+.pill-group button.active{background:#dce8ff;border-color:#3a7afe}
+select{padding:6px 10px;border-radius:6px;border:1px solid #ccc;margin:6px 0;width:100%}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{padding:8px 14px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
+.btn.primary{background:#3a7afe;color:#fff;border:none}
+.btn.ghost{border-style:dashed;color:#667}
+.hint{color:#667;font-size:13px;margin-top:6px}
+.subhint{color:#889; font-size:12px;margin:8px 0 0}
+.results-grid{display:grid;gap:16px;margin-top:20px}
+.book{background:#fff;border:1px solid #ddd;border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.empty{border:1px dashed #cfd3e1;border-radius:10px;padding:16px;text-align:center;color:#667;background:#f8faff}
