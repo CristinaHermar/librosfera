@@ -1,166 +1,136 @@
-/* ===== Paleta “café editorial” ===== */
-:root{
-  --ink:#111111;           /* negro cálido */
-  --muted:#6b6b6b;         /* gris texto secundario */
-  --bg:#FBF8F3;            /* fondo marfil */
-  --card:#FFFFFF;          /* tarjetas */
-  --line:#EFE6DA;          /* bordes suaves arena */
-  --pill:#F0E4D3;          /* beige café claro (selección) */
-  --pill-text:#111111;
-  --brand:#3A7AFE;         /* azul CTA secundario */
-  --accent:#6a4cff;        /* acento morado para CTA secundario */
+// Fuente de datos (CSV público de Google Sheets)
+const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv';
+
+// Estado
+let CATALOG=[],SELECTED_GENRES=new Set(),SELECTED_TONE="",SELECTED_PACE="",HAS_TRIGGERED=false;
+
+// Helpers
+const $=s=>document.querySelector(s);
+function splitGenres(g){return String(g).split(',').map(s=>s.trim()).filter(Boolean)}
+function unique(arr){return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}))}
+function normalizeRow(r){
+  const out={};
+  for(const k of ['titulo','autor','genero','tono','ritmo','publico','etiquetas','flags','reseña'])
+    out[k]=(r[k]||r[k?.toLowerCase?.()]||"").toString().trim();
+  return out;
+}
+function applyFilters(){
+  let list=CATALOG;
+  if(SELECTED_GENRES.size){
+    list=list.filter(r=>{
+      const gset=splitGenres(r.genero).map(x=>x.toLowerCase());
+      return Array.from(SELECTED_GENRES).every(sel=>gset.includes(sel.toLowerCase()));
+    });
+  }
+  if(SELECTED_TONE) list=list.filter(r=>r.tono.toLowerCase()===SELECTED_TONE.toLowerCase());
+  if(SELECTED_PACE) list=list.filter(r=>r.ritmo.toLowerCase()===SELECTED_PACE.toLowerCase());
+  return list;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+// Render géneros (pills)
+function renderGenres(){
+  const cont=$('#genresContainer');
+  cont.innerHTML="";
+  unique(CATALOG.flatMap(r=>splitGenres(r.genero))).forEach(g=>{
+    const b=document.createElement('button');
+    b.textContent=g;
+    b.className=SELECTED_GENRES.has(g)?'active':'';
+    b.onclick=()=>{
+      SELECTED_GENRES.has(g)?SELECTED_GENRES.delete(g):SELECTED_GENRES.add(g);
+      updateVisibility();
+      renderGenres();
+      updateOpts();
+      if(HAS_TRIGGERED) renderResults(applyFilters());
+    };
+    cont.appendChild(b);
+  });
 }
 
-/* ===== Tipografía ===== */
-h1,h2,h3{
-  font-family:Outfit, Inter, system-ui, sans-serif;
-  letter-spacing:-0.02em;
-  margin:0 0 8px;
-  color:var(--ink);
-}
-h1{font-weight:800}
-h2{font-weight:700}
-h3{font-weight:700}
-.wrap{width:100%; max-width:1120px; margin:0 auto; padding:0 24px}
-
-/* ===== Encabezado ===== */
-.site-header{
-  position:sticky; top:0; z-index:20;
-  background:var(--bg);
-  backdrop-filter:saturate(1.2) blur(4px);
-  border-bottom:1px solid var(--line);
-}
-.header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{font-size:28px}
-
-/* ===== Botones ===== */
-.btn{
-  padding:10px 14px; border-radius:12px; border:1px solid var(--line);
-  background:var(--card); color:var(--ink);
-  cursor:pointer; transition:.15s transform ease, box-shadow .15s ease
-}
-.btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.06)}
-.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-.btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.ghost{border-style:dashed;color:var(--muted);background:transparent}
-.btn.big{font-size:16px}
-
-/* Botón estilo café (para “destino”) */
-.btn.coffee{
-  background:#C9A66B;   /* café claro */
-  border-color:#C9A66B;
-  color:#fff;
-}
-.btn.coffee:hover{
-  background:#B08855;
-  border-color:#B08855;
+function updateOpts(){
+  const base=applyFilters();
+  const tones=unique(base.map(r=>r.tono)), paces=unique(base.map(r=>r.ritmo));
+  const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+  toneSel.innerHTML='<option value="">(cualquiera)</option>'+tones.map(t=>`<option>${t}</option>`).join('');
+  paceSel.innerHTML='<option value="">(cualquiera)</option>'+paces.map(p=>`<option>${p}</option>`).join('');
+  if(!SELECTED_TONE&&tones.length===1){SELECTED_TONE=tones[0];toneSel.value=SELECTED_TONE}
+  if(!SELECTED_PACE&&paces.length===1){SELECTED_PACE=paces[0];paceSel.value=SELECTED_PACE}
 }
 
-/* ===== Tarjetas / pasos ===== */
-.card{
-  background:var(--card); border:1px solid var(--line);
-  border-radius:18px; padding:18px;
-  box-shadow:0 12px 24px rgba(17,17,17,.04)
-}
-.step{position:relative; padding-left:60px; margin:18px 0}
-.step-badge{
-  position:absolute; left:18px; top:20px;
-  width:30px; height:30px; border-radius:50%;
-  background:var(--pill); color:var(--pill-text);
-  display:grid; place-items:center; font-weight:800; font-family:Outfit;
-  border:1px solid var(--line)
-}
-.hint{color:var(--muted); font-size:14px; margin-top:2px}
-.subhint{color:#8a8a8a; font-size:12px; margin:10px 0 0}
-.hidden{display:none !important}
-
-/* ===== Layout en dos columnas ===== */
-.two-cols{display:flex; gap:28px; align-items:flex-start; margin:22px 0 28px}
-.main-col{flex:3; min-width:0; display:flex; flex-direction:column; gap:16px}
-.side-col{flex:1; max-width:320px}
-.side-col .coffee-box{position:sticky; top:100px}
-.coffee-box{text-align:center}
-.coffee-box h3{margin:0 0 8px}
-.coffee-box p{font-size:14px; color:var(--muted); margin:8px 0 16px}
-
-/* ===== Pills (géneros) estilo “maqueta” ===== */
-.pill-group{display:flex; flex-wrap:wrap; gap:12px}
-.pill-group.big button{
-  font-family:Outfit, Inter, sans-serif;
-  font-weight:600;
-  font-size:16px;
-  padding:10px 14px;
-  border-radius:999px;
-  background:transparent;
-  border:1px solid rgba(0,0,0,0);  /* sin borde al reposo */
-  color:var(--ink);
-  transition:background .15s ease, box-shadow .15s ease, transform .12s ease, border-color .15s ease;
-}
-.pill-group.big button:hover{
-  transform:translateY(-1px);
-  border-color:var(--line);
-  box-shadow:0 6px 16px rgba(0,0,0,.05);
-}
-.pill-group.big button.active{
-  background:var(--pill);
-  color:var(--pill-text);
-  border:1px solid var(--line);
-  box-shadow:0 6px 16px rgba(0,0,0,.06) inset;
+function renderEmpty(){
+  const root=$('#results');
+  root.innerHTML=`<div class='empty'>Elige al menos un <strong>género</strong> o pulsa <strong>☕ Que el destino lo decida</strong>.</div>`;
 }
 
-/* ===== Filtros / resultados ===== */
-.filters{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:6px}
-.field{display:flex; flex-direction:column; gap:6px}
-select{
-  padding:12px 12px; border-radius:12px; border:1px solid var(--line);
-  background:#F9F5EE; color:var(--ink)
-}
-.actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-.inline-actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
-
-.results-section{min-height:80px}
-.results-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:8px}
-.book{
-  background:var(--card); border:1px solid var(--line);
-  border-radius:14px; padding:16px; box-shadow:0 8px 16px rgba(17,17,17,.04)
-}
-.book h3{margin:0 0 8px; font-family:Outfit; font-weight:700}
-.sep{border:none; border-top:1px dashed var(--line); margin:8px 0}
-.empty{
-  border:1px dashed var(--line); border-radius:14px; padding:18px;
-  text-align:center; color:var(--muted); background:#F9F5EE
+function renderResults(list){
+  const root=$('#results'); root.innerHTML="";
+  if(!list.length){root.innerHTML='<div class="empty">No hay coincidencias con esos filtros 😢</div>';return}
+  list.slice(0,8).forEach(r=>{
+    const d=document.createElement('div'); d.className='book';
+    d.innerHTML=`<h3>${r.titulo}</h3>
+      <p><strong>Autor:</strong> ${r.autor||'—'}</p>
+      <p><strong>Géneros:</strong> ${r.genero||'—'}</p>
+      <p><strong>Tono:</strong> ${r.tono||'—'}</p>
+      <p><strong>Ritmo:</strong> ${r.ritmo||'—'}</p>
+      <p><strong>Público:</strong> ${r.publico||'—'}</p>
+      <hr class='sep' />
+      <p><strong>Reseña:</strong> ${r['reseña']||'—'}</p>`;
+    root.appendChild(d);
+  });
 }
 
-/* ===== Responsive ===== */
-@media (max-width:1100px){
-  .side-col{max-width:300px}
-}
-@media (max-width:900px){
-  .two-cols{flex-direction:column}
-  .side-col{max-width:none; width:100%}
-  .side-col .coffee-box{position:static}
-}
-@media (max-width:700px){
-  .wrap{padding:0 16px}
-  .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-}
-@media (max-width:560px){
-  .step{padding-left:54px}
-  .card{padding:16px}
+// Visibilidad condicional de filtros
+function updateVisibility(){
+  const adv=$('#advancedFilters');
+  if(SELECTED_GENRES.size>0){
+    adv.classList.remove('hidden');
+  }else{
+    adv.classList.add('hidden');
+    SELECTED_TONE=""; SELECTED_PACE="";
+    const tSel=$('#toneSelect'), pSel=$('#paceSelect');
+    if(tSel) tSel.value=""; if(pSel) pSel.value="";
+  }
 }
 
-/* Accesibilidad */
-@media (prefers-reduced-motion: reduce){
-  .btn:hover,.pill-group.big button:hover{transform:none; box-shadow:none}
+// Reset
+function resetAll(){
+  SELECTED_GENRES.clear();
+  SELECTED_TONE=""; SELECTED_PACE="";
+  HAS_TRIGGERED=false;
+  renderGenres(); updateOpts(); renderEmpty();
+  const adv=$('#advancedFilters'); adv.classList.add('hidden');
 }
+
+// Init
+document.addEventListener('DOMContentLoaded',()=>{
+  Papa.parse(SHEET_URL,{
+    download:true,header:true,skipEmptyLines:true,
+    complete:res=>{
+      CATALOG=res.data.map(normalizeRow);
+      renderGenres(); updateOpts(); renderEmpty(); updateVisibility();
+
+      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
+
+      // CTA: “Que el destino lo decida”
+      $('#destinyBtn').onclick=()=>{
+        if(!CATALOG.length){renderResults([]); return;}
+        const pick=CATALOG[Math.floor(Math.random()*CATALOG.length)];
+        HAS_TRIGGERED=true;
+        renderResults([pick]);
+
+        // Oculta géneros y filtros
+        $('#advancedFilters').classList.add('hidden');
+        $('#genresContainer').innerHTML="";
+        SELECTED_GENRES.clear(); SELECTED_TONE=""; SELECTED_PACE="";
+      };
+
+      $('#resetBtn').onclick=resetAll;
+    },
+    error:err=>{
+      const root=$('#results'); root.innerHTML='<div class="empty">No pude leer el CSV.</div>';
+      console.error(err);
+    }
+  });
+});

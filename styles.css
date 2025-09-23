@@ -1,22 +1,17 @@
 /* ===== Paleta “café editorial” ===== */
 :root{
-  --ink:#111111;           /* negro cálido */
-  --muted:#6b6b6b;         /* gris texto secundario */
-  --bg:#FBF8F3;            /* fondo marfil */
-  --card:#FFFFFF;          /* tarjetas */
-  --line:#EFE6DA;          /* bordes suaves arena */
-  --pill:#F0E4D3;          /* beige café claro (selección) */
-  --pill-text:#111111;
-  --brand:#3A7AFE;         /* azul CTA secundario */
-  --accent:#6a4cff;        /* acento morado para CTA secundario */
+  --ink:#111111; --muted:#6b6b6b; --bg:#FBF8F3; --card:#FFFFFF; --line:#EFE6DA;
+  --pill:#F0E4D3; --pill-text:#111111;
+  --brand:#3A7AFE; --accent:#6a4cff;
+  /* Café CTA */
+  --coffee:#8B5E34;          /* café intenso */
+  --coffee-2:#A17345;        /* más claro para hover */
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
+  margin:0; background:var(--bg); color:var(--ink);
   font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
@@ -24,21 +19,15 @@ body{
 /* ===== Tipografía ===== */
 h1,h2,h3{
   font-family:Outfit, Inter, system-ui, sans-serif;
-  letter-spacing:-0.02em;
-  margin:0 0 8px;
-  color:var(--ink);
+  letter-spacing:-0.02em; margin:0 0 8px; color:var(--ink);
 }
-h1{font-weight:800}
-h2{font-weight:700}
-h3{font-weight:700}
+h1{font-weight:800} h2{font-weight:700} h3{font-weight:700}
 .wrap{width:100%; max-width:1120px; margin:0 auto; padding:0 24px}
 
 /* ===== Encabezado ===== */
 .site-header{
-  position:sticky; top:0; z-index:20;
-  background:var(--bg);
-  backdrop-filter:saturate(1.2) blur(4px);
-  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:20; background:var(--bg);
+  backdrop-filter:saturate(1.2) blur(4px); border-bottom:1px solid var(--line);
 }
 .header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
 .brand{display:flex;align-items:center;gap:12px}
@@ -48,7 +37,7 @@ h3{font-weight:700}
 .btn{
   padding:10px 14px; border-radius:12px; border:1px solid var(--line);
   background:var(--card); color:var(--ink);
-  cursor:pointer; transition:.15s transform ease, box-shadow .15s ease
+  cursor:pointer; transition:.15s transform ease, box-shadow .15s ease, background .15s ease, border-color .15s ease
 }
 .btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.06)}
 .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -56,34 +45,40 @@ h3{font-weight:700}
 .btn.ghost{border-style:dashed;color:var(--muted);background:transparent}
 .btn.big{font-size:16px}
 
-/* Botón estilo café (para “destino”) */
+/* CTA café llamativo */
 .btn.coffee{
-  background:#C9A66B;   /* café claro */
-  border-color:#C9A66B;
+  background:var(--coffee);
+  border-color:var(--coffee);
   color:#fff;
+  font-family:Outfit, Inter, sans-serif;
+  font-weight:700;
+  letter-spacing:.2px;
+  box-shadow:0 10px 22px rgba(139,94,52,.22);
 }
 .btn.coffee:hover{
-  background:#B08855;
-  border-color:#B08855;
+  background:var(--coffee-2);
+  border-color:var(--coffee-2);
+  box-shadow:0 12px 26px rgba(139,94,52,.28);
 }
+.btn.huge{font-size:18px; padding:14px 18px; border-radius:14px}
 
 /* ===== Tarjetas / pasos ===== */
 .card{
   background:var(--card); border:1px solid var(--line);
-  border-radius:18px; padding:18px;
-  box-shadow:0 12px 24px rgba(17,17,17,.04)
+  border-radius:18px; padding:18px; box-shadow:0 12px 24px rgba(17,17,17,.04)
 }
 .step{position:relative; padding-left:60px; margin:18px 0}
 .step-badge{
-  position:absolute; left:18px; top:20px;
-  width:30px; height:30px; border-radius:50%;
+  position:absolute; left:18px; top:20px; width:30px; height:30px; border-radius:50%;
   background:var(--pill); color:var(--pill-text);
-  display:grid; place-items:center; font-weight:800; font-family:Outfit;
-  border:1px solid var(--line)
+  display:grid; place-items:center; font-weight:800; font-family:Outfit; border:1px solid var(--line)
 }
 .hint{color:var(--muted); font-size:14px; margin-top:2px}
 .subhint{color:#8a8a8a; font-size:12px; margin:10px 0 0}
 .hidden{display:none !important}
+
+/* Fila donde vive el CTA (debajo del hint) */
+.cta-row{margin:12px 0 8px}
 
 /* ===== Layout en dos columnas ===== */
 .two-cols{display:flex; gap:28px; align-items:flex-start; margin:22px 0 28px}
@@ -94,58 +89,33 @@ h3{font-weight:700}
 .coffee-box h3{margin:0 0 8px}
 .coffee-box p{font-size:14px; color:var(--muted); margin:8px 0 16px}
 
-/* ===== Pills (géneros) estilo “maqueta” ===== */
+/* ===== Pills (géneros) ===== */
 .pill-group{display:flex; flex-wrap:wrap; gap:12px}
 .pill-group.big button{
-  font-family:Outfit, Inter, sans-serif;
-  font-weight:600;
-  font-size:16px;
-  padding:10px 14px;
-  border-radius:999px;
-  background:transparent;
-  border:1px solid rgba(0,0,0,0);  /* sin borde al reposo */
-  color:var(--ink);
+  font-family:Outfit, Inter, sans-serif; font-weight:600; font-size:16px;
+  padding:10px 14px; border-radius:999px; background:transparent;
+  border:1px solid rgba(0,0,0,0); color:var(--ink);
   transition:background .15s ease, box-shadow .15s ease, transform .12s ease, border-color .15s ease;
 }
-.pill-group.big button:hover{
-  transform:translateY(-1px);
-  border-color:var(--line);
-  box-shadow:0 6px 16px rgba(0,0,0,.05);
-}
-.pill-group.big button.active{
-  background:var(--pill);
-  color:var(--pill-text);
-  border:1px solid var(--line);
-  box-shadow:0 6px 16px rgba(0,0,0,.06) inset;
-}
+.pill-group.big button:hover{transform:translateY(-1px); border-color:var(--line); box-shadow:0 6px 16px rgba(0,0,0,.05)}
+.pill-group.big button.active{background:var(--pill); color:var(--pill-text); border:1px solid var(--line); box-shadow:0 6px 16px rgba(0,0,0,.06) inset}
 
 /* ===== Filtros / resultados ===== */
 .filters{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:6px}
 .field{display:flex; flex-direction:column; gap:6px}
-select{
-  padding:12px 12px; border-radius:12px; border:1px solid var(--line);
-  background:#F9F5EE; color:var(--ink)
-}
+select{padding:12px 12px; border-radius:12px; border:1px solid var(--line); background:#F9F5EE; color:var(--ink)}
 .actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
 .inline-actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
 
 .results-section{min-height:80px}
 .results-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:8px}
-.book{
-  background:var(--card); border:1px solid var(--line);
-  border-radius:14px; padding:16px; box-shadow:0 8px 16px rgba(17,17,17,.04)
-}
+.book{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 8px 16px rgba(17,17,17,.04)}
 .book h3{margin:0 0 8px; font-family:Outfit; font-weight:700}
 .sep{border:none; border-top:1px dashed var(--line); margin:8px 0}
-.empty{
-  border:1px dashed var(--line); border-radius:14px; padding:18px;
-  text-align:center; color:var(--muted); background:#F9F5EE
-}
+.empty{border:1px dashed var(--line); border-radius:14px; padding:18px; text-align:center; color:var(--muted); background:#F9F5EE}
 
 /* ===== Responsive ===== */
-@media (max-width:1100px){
-  .side-col{max-width:300px}
-}
+@media (max-width:1100px){ .side-col{max-width:300px} }
 @media (max-width:900px){
   .two-cols{flex-direction:column}
   .side-col{max-width:none; width:100%}
@@ -154,11 +124,9 @@ select{
 @media (max-width:700px){
   .wrap{padding:0 16px}
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .btn.huge{width:100%} /* CTA full-width en móvil */
 }
-@media (max-width:560px){
-  .step{padding-left:54px}
-  .card{padding:16px}
-}
+@media (max-width:560px){ .step{padding-left:54px} .card{padding:16px} }
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce){
