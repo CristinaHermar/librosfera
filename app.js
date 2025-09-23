@@ -78,4 +78,123 @@ function updateOpts(){
 
 function applyFilters(){
   let list = CATALOG;
-  if(SELECTED_GEN_
+  if(SELECTED_GENRES.size){
+    list = list.filter(r=>{
+      const gset = splitGenres(r.genero).map(x=>x.toLowerCase());
+      return Array.from(SELECTED_GENRES).every(sel=>gset.includes(sel.toLowerCase()));
+    });
+  }
+  if(SELECTED_TONE) list = list.filter(r=> (r.tono||'').toLowerCase() === SELECTED_TONE.toLowerCase());
+  if(SELECTED_PACE) list = list.filter(r=> (r.ritmo||'').toLowerCase() === SELECTED_PACE.toLowerCase());
+  return list;
+}
+
+function renderEmpty(){
+  const root = $('#results');
+  root.innerHTML = `<div class='empty'>Elige al menos un <strong>género</strong> o pulsa <strong>☕ Que el destino lo decida</strong>.</div>`;
+}
+
+function renderResults(list){
+  const root = $('#results'); 
+  root.innerHTML = "";
+  if(!list.length){
+    renderStateMessage(root, 'No hay coincidencias con esos filtros 😢');
+    return;
+  }
+  list.slice(0,8).forEach(r=>{
+    const d = document.createElement('div');
+    d.className = 'book';
+    d.innerHTML = `
+      <h3>${r.titulo||'Sin título'}</h3>
+      <p><strong>Autor:</strong> ${r.autor||'—'}</p>
+      <p><strong>Géneros:</strong> ${r.genero||'—'}</p>
+      <p><strong>Tono:</strong> ${r.tono||'—'}</p>
+      <p><strong>Ritmo:</strong> ${r.ritmo||'—'}</p>
+      <p><strong>Público:</strong> ${r.publico||'—'}</p>
+      <hr class="sep" />
+      <p><strong>Reseña:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
+    `;
+    root.appendChild(d);
+  });
+  // scroll suave hacia resultados en móvil
+  root.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ========= Visibilidad =========
+function updateVisibility(){
+  const adv = $('#advancedFilters');
+  if(SELECTED_GENRES.size>0){
+    adv.classList.remove('hidden');
+  }else{
+    adv.classList.add('hidden');
+    SELECTED_TONE=""; SELECTED_PACE="";
+    const tSel=$('#toneSelect'), pSel=$('#paceSelect');
+    if(tSel) tSel.value=""; if(pSel) pSel.value="";
+  }
+}
+
+// ========= Reset =========
+function resetAll(){
+  SELECTED_GENRES.clear();
+  SELECTED_TONE=""; SELECTED_PACE="";
+  HAS_TRIGGERED=false;
+  renderGenres(); updateOpts(); renderEmpty();
+  $('#advancedFilters').classList.add('hidden');
+}
+
+// ========= Init =========
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Estado inicial visible
+  renderStateMessage($('#genresContainer'), 'Cargando géneros…');
+  renderStateMessage($('#results'), 'Cargando catálogo…');
+
+  // Carga CSV
+  Papa.parse(SHEET_URL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: res => {
+      try{
+        const rows = (res.data||[]).map(normalizeRow).filter(r => (r.titulo||'').trim() !== '');
+        if(rows.length){
+          CATALOG = rows;
+        }else{
+          console.warn('CSV vacío, uso fallback.');
+          CATALOG = FALLBACK_BOOKS;
+        }
+      }catch(e){
+        console.error('Error parseando CSV:', e);
+        CATALOG = FALLBACK_BOOKS;
+      }
+
+      // Render inicial
+      renderGenres();
+      updateOpts();
+      updateVisibility();
+      renderEmpty();
+
+      // Listeners
+      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters());};
+      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters());};
+      $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters());};
+
+      // “Que el destino lo decida” — AHORA NO OCULTA GÉNEROS
+      $('#destinyBtn').onclick=()=>{
+        const pool = applyFilters();
+        const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
+        const pick = base[Math.floor(Math.random()*base.length)];
+        HAS_TRIGGERED = true;
+        renderResults([pick]);
+        // mantenemos visible #genresContainer y filtros; solo mostramos el resultado
+      };
+
+      $('#resetBtn').onclick=resetAll;
+    },
+    error: err => {
+      console.error('Error descargando CSV:', err);
+      CATALOG = FALLBACK_BOOKS;
+      renderGenres(); updateOpts(); updateVisibility(); renderEmpty();
+    }
+  });
+});
