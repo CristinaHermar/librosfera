@@ -177,15 +177,17 @@ function renderResults(list){
     const d = document.createElement('div');
     d.className = 'book';
     d.innerHTML = `
-      <h3>${r.titulo||'—'}</h3>
-      <p><strong>${currentLang==='es'?'Autor':'Author'}:</strong> ${r.autor||'—'}</p>
-      <p><strong>${currentLang==='es'?'Géneros':'Genres'}:</strong> ${r.genero||'—'}</p>
-      <p><strong>${currentLang==='es'?'Tono':'Tone'}:</strong> ${r.tono||'—'}</p>
-      <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
-      <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
-      <hr class="sep" />
-      <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
-    `;
+  <h3>${r.titulo||'—'}</h3>
+  <p><strong>${currentLang==='es'?'Autor':'Author'}:</strong> ${r.autor||'—'}</p>
+  <p><strong>${currentLang==='es'?'Géneros':'Genres'}:</strong> ${r.genero||'—'}</p>
+  <p><strong>${currentLang==='es'?'Tono':'Tone'}:</strong> ${r.tono||'—'}</p>
+  <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
+  <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
+  <p class="flags"><strong>${currentLang==='es'?'Flags':'Flags'}:</strong> ${r.flags || '—'}</p> 
+  <hr class="sep" />
+  <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
+`;
+
     root.appendChild(d);
   });
   // scroll suave hacia resultados en móvil
