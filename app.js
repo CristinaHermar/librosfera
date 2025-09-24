@@ -91,6 +91,9 @@ let SELECTED_TONE = "";
 let SELECTED_PACE = "";
 let HAS_TRIGGERED = false;
 
+// NUEVO: control explícito para mostrar el Paso 2 solo tras “Seguir afinando”
+let SHOW_ADVANCED = false;
+
 // ========= Helpers =========
 const $ = s => document.querySelector(s);
 
@@ -127,16 +130,21 @@ function renderGenres(){
     b.onclick = () => {
       // alternar selección
       SELECTED_GENRES.has(g) ? SELECTED_GENRES.delete(g) : SELECTED_GENRES.add(g);
-      // mostrar/ocultar avanzados
-      updateVisibility();
+
       // re-render géneros (para reflejar active)
       renderGenres();
+
       // actualizar opciones de tono/ritmo en base al filtro actual
       updateOpts();
 
       // 👇 Importante: NO mostrar resultados aún
       HAS_TRIGGERED = false;
       renderEmpty();
+
+      // mantener la visibilidad del Paso 2 según SHOW_ADVANCED
+      updateVisibility();
+
+      // actualizar contador de coincidencias
       updateCtaCount();
     };
     cont.appendChild(b);
@@ -226,12 +234,15 @@ function updateCtaCount(){
 }
 
 // ========= Visibilidad =========
+// ANTES: se mostraba Paso 2 al elegir géneros:contentReference[oaicite:1]{index=1}
+// AHORA: solo si el usuario presionó "Seguir afinando"
 function updateVisibility(){
   const adv = $('#advancedFilters');
-  if(SELECTED_GENRES.size>0){
+  if(SHOW_ADVANCED){
     adv.classList.remove('hidden');
   }else{
     adv.classList.add('hidden');
+    // al ocultar, limpiamos selects
     SELECTED_TONE=""; SELECTED_PACE="";
     const tSel=$('#toneSelect'), pSel=$('#paceSelect');
     if(tSel) tSel.value=""; if(pSel) pSel.value="";
@@ -243,8 +254,9 @@ function resetAll(){
   SELECTED_GENRES.clear();
   SELECTED_TONE=""; SELECTED_PACE="";
   HAS_TRIGGERED=false;
+  SHOW_ADVANCED=false;           // ocultar Paso 2 en reset
   renderGenres(); updateOpts(); renderEmpty();
-  $('#advancedFilters').classList.add('hidden');
+  updateVisibility();
 }
 
 // ========= Traducción UI =========
@@ -303,70 +315,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
       // Render inicial
       renderGenres();
       updateOpts();
-      updateVisibility();
-      applyTranslations(currentLang); // aplica idioma a todo
-      renderEmpty();
-
-      // Listeners
-      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
-      if(toneSel) toneSel.onchange=e=>{
-        SELECTED_TONE=e.target.value||"";
-        // 👇 No mostrar resultados aún
-        HAS_TRIGGERED = false;
-        renderEmpty();
-        updateCtaCount();
-      };
-      if(paceSel) paceSel.onchange=e=>{
-        SELECTED_PACE=e.target.value||"";
-        // 👇 No mostrar resultados aún
-        HAS_TRIGGERED = false;
-        renderEmpty();
-        updateCtaCount();
-      };
-
-      // Mostrar resultados solo cuando el usuario lo pida
-      $('#applyFiltersBtn').onclick=()=>{
-        HAS_TRIGGERED=true;
-        renderResults(applyFilters());
-      };
-
-      // “Seguir afinando”: enfoca el primer select
-      const keepBtn = $('#keepRefiningBtn');
-      if (keepBtn) {
-        keepBtn.onclick = () => {
-          const first = $('#toneSelect') || $('#paceSelect');
-          if(first) first.focus();
-        };
-      }
-
-      // “Que el destino lo decida” — muestra 1 libro al instante
-      $('#destinyBtn').onclick=()=>{
-        const pool = applyFilters();
-        const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
-        const pick = base[Math.floor(Math.random()*base.length)];
-        HAS_TRIGGERED = true;
-        renderResults([pick]);
-      };
-
-      $('#resetBtn').onclick=resetAll;
-
-      // contador inicial
-      updateCtaCount();
-
-      // Toggle idioma
-      const langBtn = document.getElementById("langToggle");
-      if (langBtn) {
-        langBtn.addEventListener("click", () => {
-          applyTranslations(currentLang === "es" ? "en" : "es");
-        });
-      }
-    },
-    error: err => {
-      console.error('Error descargando CSV:', err);
-      CATALOG = FALLBACK_BOOKS;
-      renderGenres(); updateOpts(); updateVisibility();
-      applyTranslations(currentLang);
-      renderEmpty();
-    }
-  });
-});
+      up
