@@ -3,11 +3,11 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2Pi
 
 // Fallback local (por si falla el CSV)
 const FALLBACK_BOOKS = [
-  { titulo:'La isla misteriosa', autor:'J. Verne', genero:'aventura, clásico', tono:'épico', ritmo:'rápido', publico:'general', etiquetas:'isla', flags:'', 'reseña':'Aventura clásica con ingenio y exploración.' },
-  { titulo:'Orgullo y prejuicio', autor:'J. Austen', genero:'romance, clásico', tono:'ágil', ritmo:'medio', publico:'adulto', etiquetas:'regencia', flags:'', 'reseña':'Romance afilado con crítica social.' },
-  { titulo:'El nombre de la rosa', autor:'U. Eco', genero:'misterio, histórica', tono:'oscuro', ritmo:'pausado', publico:'adulto', etiquetas:'monasterio', flags:'', 'reseña':'Misterio intelectual en la Edad Media.' },
-  { titulo:'El Hobbit', autor:'J.R.R. Tolkien', genero:'fantasía, aventura', tono:'luminoso', ritmo:'medio', publico:'juvenil', etiquetas:'viaje', flags:'', 'reseña':'Viaje iniciático lleno de criaturas y tesoros.' },
-  { titulo:'Ciencia ficción para curiosos', autor:'Varios', genero:'ciencia ficción', tono:'especulativo', ritmo:'medio', publico:'general', etiquetas:'ideas', flags:'', 'reseña':'Explora futuros posibles con buen pulso.' },
+  { titulo:'La isla misteriosa', autor:'J. Verne', genero:'aventura, clásico', tono:'épico', ritmo:'rápido', publico:'general', etiquetas:'isla', flags:'Lenguaje antiguo', reseña:'Aventura clásica con ingenio y exploración.' },
+  { titulo:'Orgullo y prejuicio', autor:'J. Austen', genero:'romance, clásico', tono:'ágil', ritmo:'medio', publico:'adulto', etiquetas:'regencia', flags:'Romance; referencias sociales', reseña:'Romance afilado con crítica social.' },
+  { titulo:'El nombre de la rosa', autor:'U. Eco', genero:'misterio, histórica', tono:'oscuro', ritmo:'pausado', publico:'adulto', etiquetas:'monasterio', flags:'Violencia; tensión', reseña:'Misterio intelectual en la Edad Media.' },
+  { titulo:'El Hobbit', autor:'J.R.R. Tolkien', genero:'fantasía, aventura', tono:'luminoso', ritmo:'medio', publico:'juvenil', etiquetas:'viaje', flags:'Violencia fantástica leve', reseña:'Viaje iniciático lleno de criaturas y tesoros.' },
+  { titulo:'Ciencia ficción para curiosos', autor:'Varios', genero:'ciencia ficción', tono:'especulativo', ritmo:'medio', publico:'general', etiquetas:'ideas', flags:'Temas maduros', reseña:'Explora futuros posibles con buen pulso.' },
 ];
 
 // ========= i18n =========
@@ -123,11 +123,18 @@ function renderGenres(){
     b.textContent = g;
     b.className = SELECTED_GENRES.has(g) ? 'active' : '';
     b.onclick = () => {
+      // alternar selección
       SELECTED_GENRES.has(g) ? SELECTED_GENRES.delete(g) : SELECTED_GENRES.add(g);
+      // mostrar/ocultar avanzados
       updateVisibility();
+      // re-render géneros (para reflejar active)
       renderGenres();
+      // actualizar opciones de tono/ritmo en base al filtro actual
       updateOpts();
-      if (HAS_TRIGGERED) renderResults(applyFilters());
+
+      // 👇 Importante: NO mostrar resultados aún
+      HAS_TRIGGERED = false;
+      renderEmpty();
     };
     cont.appendChild(b);
   });
@@ -177,17 +184,16 @@ function renderResults(list){
     const d = document.createElement('div');
     d.className = 'book';
     d.innerHTML = `
-  <h3>${r.titulo||'—'}</h3>
-  <p><strong>${currentLang==='es'?'Autor':'Author'}:</strong> ${r.autor||'—'}</p>
-  <p><strong>${currentLang==='es'?'Géneros':'Genres'}:</strong> ${r.genero||'—'}</p>
-  <p><strong>${currentLang==='es'?'Tono':'Tone'}:</strong> ${r.tono||'—'}</p>
-  <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
-  <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
-  <p class="flags"><strong>${currentLang==='es'?'Flags':'Flags'}:</strong> ${r.flags || '—'}</p> 
-  <hr class="sep" />
-  <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
-`;
-
+      <h3>${r.titulo||'—'}</h3>
+      <p><strong>${currentLang==='es'?'Autor':'Author'}:</strong> ${r.autor||'—'}</p>
+      <p><strong>${currentLang==='es'?'Géneros':'Genres'}:</strong> ${r.genero||'—'}</p>
+      <p><strong>${currentLang==='es'?'Tono':'Tone'}:</strong> ${r.tono||'—'}</p>
+      <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
+      <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
+      <p class="flags"><strong>${currentLang==='es'?'Flags':'Flags'}:</strong> ${r.flags || '—'}</p>
+      <hr class="sep" />
+      <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
+    `;
     root.appendChild(d);
   });
   // scroll suave hacia resultados en móvil
@@ -275,11 +281,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
       // Listeners
       const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
-      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
-      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
-      $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
+      if(toneSel) toneSel.onchange=e=>{
+        SELECTED_TONE=e.target.value||"";
+        // 👇 No mostrar resultados aún
+        HAS_TRIGGERED = false;
+        renderEmpty();
+      };
+      if(paceSel) paceSel.onchange=e=>{
+        SELECTED_PACE=e.target.value||"";
+        // 👇 No mostrar resultados aún
+        HAS_TRIGGERED = false;
+        renderEmpty();
+      };
 
-      // “Que el destino lo decida” — NO oculta géneros
+      // Mostrar resultados solo cuando el usuario lo pida
+      $('#applyFiltersBtn').onclick=()=>{
+        HAS_TRIGGERED=true;
+        renderResults(applyFilters());
+      };
+
+      // “Que el destino lo decida” — muestra 1 libro al instante
       $('#destinyBtn').onclick=()=>{
         const pool = applyFilters();
         const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
