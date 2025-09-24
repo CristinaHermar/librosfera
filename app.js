@@ -33,6 +33,7 @@ const i18n = {
     paceLabel: "Ritmo",
     anyOption: "(cualquiera)",
     seeRecs: "✨ Ver recomendaciones",
+    keepRefining: "Seguir afinando",
     subhint: "Las opciones se rellenan solitas según el/los géneros elegidos.",
 
     coffeeTitle: "☕ ¿Te sirvió?",
@@ -66,6 +67,7 @@ const i18n = {
     paceLabel: "Pace",
     anyOption: "(any)",
     seeRecs: "✨ See recommendations",
+    keepRefining: "Keep refining",
     subhint: "Options auto-fill based on the genres you choose.",
 
     coffeeTitle: "☕ Did it help?",
@@ -135,6 +137,7 @@ function renderGenres(){
       // 👇 Importante: NO mostrar resultados aún
       HAS_TRIGGERED = false;
       renderEmpty();
+      updateCtaCount();
     };
     cont.appendChild(b);
   });
@@ -153,6 +156,8 @@ function updateOpts(){
 
   if(!SELECTED_TONE && tones.length===1){ SELECTED_TONE=tones[0]; toneSel.value=SELECTED_TONE; }
   if(!SELECTED_PACE && paces.length===1){ SELECTED_PACE=paces[0]; paceSel.value=SELECTED_PACE; }
+
+  updateCtaCount();
 }
 
 function applyFilters(){
@@ -198,6 +203,26 @@ function renderResults(list){
   });
   // scroll suave hacia resultados en móvil
   root.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ======== CTA Count ========
+function updateCtaCount(){
+  const n = applyFilters().length;
+  const btn = $('#applyFiltersBtn');
+  const counter = $('#recCount');
+  if(btn){
+    const baseTxt = (currentLang==='es' ? '✨ Ver recomendaciones' : '✨ See recommendations');
+    btn.textContent = n ? `${baseTxt} (${n})` : baseTxt;
+  }
+  if(counter){
+    if(currentLang==='es'){
+      counter.textContent = n===0 ? '0 coincidencias (ajusta filtros)'
+        : (n===1 ? '1 coincidencia posible' : `${n} coincidencias posibles`);
+    }else{
+      counter.textContent = n===0 ? '0 matches (tweak filters)'
+        : (n===1 ? '1 possible match' : `${n} possible matches`);
+    }
+  }
 }
 
 // ========= Visibilidad =========
@@ -250,6 +275,9 @@ function applyTranslations(lang){
   // Re-render de mensajes/labels en resultados (si ya hubo búsqueda)
   if(!HAS_TRIGGERED) renderEmpty();
   else renderResults(applyFilters());
+
+  // Rematar contador en el idioma nuevo
+  updateCtaCount();
 }
 
 // ========= Init =========
@@ -286,12 +314,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
         // 👇 No mostrar resultados aún
         HAS_TRIGGERED = false;
         renderEmpty();
+        updateCtaCount();
       };
       if(paceSel) paceSel.onchange=e=>{
         SELECTED_PACE=e.target.value||"";
         // 👇 No mostrar resultados aún
         HAS_TRIGGERED = false;
         renderEmpty();
+        updateCtaCount();
       };
 
       // Mostrar resultados solo cuando el usuario lo pida
@@ -299,6 +329,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         HAS_TRIGGERED=true;
         renderResults(applyFilters());
       };
+
+      // “Seguir afinando”: enfoca el primer select
+      const keepBtn = $('#keepRefiningBtn');
+      if (keepBtn) {
+        keepBtn.onclick = () => {
+          const first = $('#toneSelect') || $('#paceSelect');
+          if(first) first.focus();
+        };
+      }
 
       // “Que el destino lo decida” — muestra 1 libro al instante
       $('#destinyBtn').onclick=()=>{
@@ -310,6 +349,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       };
 
       $('#resetBtn').onclick=resetAll;
+
+      // contador inicial
+      updateCtaCount();
 
       // Toggle idioma
       const langBtn = document.getElementById("langToggle");

@@ -8,7 +8,16 @@
   <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
+  <!-- CSS crítico inline: evita que en iPhone se vean ambas versiones del tagline -->
+  <style>
+    .tagline-desktop{display:none !important;}
+    .tagline-mobile{display:block !important;}
+    @media (min-width:701px){
+      .tagline-desktop{display:block !important;}
+      .tagline-mobile{display:none !important;}
+    }
+  </style>
+
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="app.js" defer></script>
@@ -16,13 +25,13 @@
 <body>
   <header class="site-header">
     <div class="wrap header-inner">
-      <!-- Marca -->
+      <!-- Izquierda: marca -->
       <div class="brand">
         <span class="logo">📚</span>
         <div class="brand-text">
           <h1 data-i18n="brand">Librosfera</h1>
 
-          <!-- Desktop tagline -->
+          <!-- Desktop: texto completo -->
           <p class="tagline tagline-desktop" data-i18n="taglineParagraph">
             Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
             Historias con personajes fuera de lo común o imposibles de olvidar.
@@ -32,7 +41,7 @@
             pero que nos importa a los que buscamos buenas lecturas.
           </p>
 
-          <!-- Móvil tagline -->
+          <!-- Móvil: acordeón con flechita ▸/▾ -->
           <details class="tagline-mobile">
             <summary data-i18n="taglineSummary">Acerca de esta guía</summary>
             <div class="tagline-content" data-i18n="taglineParagraph">
@@ -47,16 +56,16 @@
         </div>
       </div>
 
-      <!-- Botón idioma -->
+      <!-- Derecha: botón de idioma -->
       <button id="langToggle" class="btn lang-switch">🌐 EN</button>
     </div>
   </header>
 
-  <!-- Layout principal -->
+  <!-- CONTENIDO EN DOS COLUMNAS -->
   <main class="wrap two-cols">
     <!-- Columna izquierda -->
     <div class="main-col">
-      <!-- Botón reset -->
+      <!-- Botón limpiar SEPARADO, fuera del card y justo bajo el header -->
       <div class="reset-top">
         <button id="resetBtn" class="btn ghost" data-i18n="resetBtn">↺ Limpiar selección</button>
       </div>
@@ -67,7 +76,7 @@
         <h2 data-i18n="chooseGenres">Elige uno o más géneros</h2>
         <p class="hint" data-i18n="hint">O pídele al destino que elija por ti.</p>
 
-        <!-- Botón destino -->
+        <!-- CTA café llamativo justo debajo del hint -->
         <div class="cta-row">
           <button id="destinyBtn" class="btn coffee huge" data-i18n="destinyBtn">☕ Que el destino lo decida</button>
         </div>
@@ -90,9 +99,20 @@
             <select id="paceSelect"><option value="" data-i18n="anyOption">(cualquiera)</option></select>
           </label>
         </div>
+
+        <!-- Acciones duales -->
         <div class="actions">
-          <button id="applyFiltersBtn" class="btn accent" data-i18n="seeRecs">✨ Ver recomendaciones</button>
+          <div class="actions-left">
+            <button id="applyFiltersBtn" class="btn accent" data-i18n="seeRecs">✨ Ver recomendaciones</button>
+            <button id="keepRefiningBtn" class="btn ghost" type="button" data-i18n="keepRefining">
+              Seguir afinando
+            </button>
+          </div>
+          <div class="actions-right">
+            <small id="recCount" class="muted-count"></small>
+          </div>
         </div>
+
         <p class="subhint" data-i18n="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
       </section>
 
@@ -102,11 +122,12 @@
       </section>
     </div>
 
-    <!-- Columna derecha -->
+    <!-- Columna derecha (isla café) -->
     <aside class="side-col">
       <div class="card coffee-box">
         <h3 data-i18n="coffeeTitle">☕ ¿Te sirvió?</h3>
         <p data-i18n="coffeeText">Invítame un café para poder seguir con este increíble proyecto ✨</p>
+        <!-- Mismo tono que “Ver recomendaciones”: .btn.accent -->
         <a class="btn accent" href="https://www.buymeacoffee.com/TU_USUARIO" target="_blank" rel="noopener" data-i18n="coffeeBtn">
           ☕ Invítame un café
         </a>

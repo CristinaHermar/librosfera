@@ -156,24 +156,25 @@ select{
   appearance:none;
   -webkit-appearance:none;
   width:100%;
-  padding:12px 40px 12px 14px;
+  padding:12px 40px 12px 14px;    /* espacio para el caret */
   border-radius:14px;
   border:1px solid var(--line);
   background:#F9F5EE;
   font-weight:600;
   line-height:1.15;
   transition:border-color .15s, box-shadow .15s, background .15s;
-  background-image:linear-gradient(transparent,transparent),
-                   radial-gradient(currentColor 0, currentColor 70%, transparent 71%);
+  background-image:
+    linear-gradient(transparent,transparent), /* para safari */
+    radial-gradient(currentColor 0, currentColor 70%, transparent 71%); /* puntito */
   background-repeat:no-repeat, no-repeat;
-  background-position:right 16px center, right 26px center;
-  background-size:8px 8px, 2px 2px;
+  background-position: right 16px center, right 26px center;
+  background-size: 8px 8px, 2px 2px;
 }
 select:focus{
   outline:none;
   border-color:var(--accent);
   box-shadow:0 0 0 3px rgba(106,76,255,.12);
-  background:#FFF;
+  background:#FFF; /* contraste al enfocar */
 }
 .filters .field{
   background:var(--card);
@@ -185,12 +186,30 @@ select:focus{
   box-shadow:0 6px 18px rgba(0,0,0,.04);
 }
 
+/* === Paso 2: acciones duales === */
+.actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:8px;
+}
+.actions-left{ display:flex; gap:10px; flex-wrap:wrap; }
+.actions-right .muted-count{
+  color:var(--muted);
+  font-size:12px;
+  white-space:nowrap;
+}
+.actions .btn.ghost{
+  border-style:dashed;
+}
+
 /* ===== Resultados ===== */
 .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
 .book{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;}
 .book h3{margin:0 0 8px;font-family:Outfit;}
 .book p{margin:4px 0;}
-.book .flags{color:var(--coffee);font-weight:600;}
+.book .flags{color:var(--coffee);font-weight:600;} /* 🎯 estilo flags */
 .empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);background:#F9F5EE;}
 
 /* ===== Responsive ===== */
