@@ -123,10 +123,11 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 /* === Botón Reset anclado abajo-izquierda del Paso 1 === */
 .step:first-of-type .inline-actions{
   position:absolute;
-  left: calc(18px + 36px + 12px); /* padding + badge + gap = alineado con el contenido */
+  right:18px;   
   bottom:12px;
 }
 .step:first-of-type .inline-actions .btn{margin:0;}
+
 
 /* ===== Layout columnas ===== */
 .two-cols{display:flex;gap:28px;margin:22px 0;}
