@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   renderStateMessage($('#genresContainer'), 'loadingGenres');
   renderStateMessage($('#results'), 'loadingCatalog');
   wireEvents();
-  hideResetBtn(); // 👈 oculto desde el inicio
+  hideResetBtn(); // oculto desde el inicio
 
   Papa.parse(SHEET_URL, {
     download: true,

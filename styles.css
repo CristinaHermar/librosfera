@@ -105,12 +105,28 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 
 /* ===== Tarjetas y pasos ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;}
-.step{display:grid;grid-template-columns:36px 1fr;gap:12px;margin:18px 0;align-items:start;}
+.step{
+  display:grid;
+  grid-template-columns:36px 1fr;
+  gap:12px;
+  margin:18px 0;
+  align-items:start;
+  position:relative;           /* permite anclar el botón dentro */
+  padding-bottom:64px;         /* espacio para el botón flotante */
+}
 .step-badge{width:30px;height:30px;border-radius:50%;background:var(--pill);display:grid;place-items:center;font-weight:800;font-family:Outfit;border:1px solid var(--line);}
 .step h2,.step .hint,.step .cta-row,.step #genresContainer,.step .inline-actions,.step .filters,.step .actions,.step .subhint{grid-column:2;}
 .hint{color:var(--muted);font-size:14px;}
 .cta-row{margin:12px 0 8px;}
 .hidden{display:none!important;}
+
+/* === Botón Reset anclado abajo-izquierda del Paso 1 === */
+.step:first-of-type .inline-actions{
+  position:absolute;
+  left: calc(18px + 36px + 12px); /* padding + badge + gap = alineado con el contenido */
+  bottom:12px;
+}
+.step:first-of-type .inline-actions .btn{margin:0;}
 
 /* ===== Layout columnas ===== */
 .two-cols{display:flex;gap:28px;margin:22px 0;}
@@ -145,12 +161,15 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
   .btn.huge{width:100%;}
 }
+/* badge y gaps cambian — ajustamos el anclaje para pantallas pequeñas */
 @media (max-width:430px){
-  .step{grid-template-columns:30px 1fr;gap:10px;}
+  .step{grid-template-columns:30px 1fr;gap:10px;padding-bottom:64px;}
   .step-badge{width:26px;height:26px;font-size:14px;}
+  .step:first-of-type .inline-actions{left: calc(18px + 30px + 10px); bottom:10px;}
   .step h2{font-size:clamp(20px,6vw,28px);}
 }
 @media (max-width:360px){
   .step{grid-template-columns:28px 1fr;gap:8px;}
   .step-badge{width:24px;height:24px;font-size:13px;}
+  .step:first-of-type .inline-actions{left: calc(18px + 28px + 8px); bottom:8px;}
 }
