@@ -14,7 +14,19 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
 /* ===== Header ===== */
-.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line); z-index: 1000;}
+/*.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line); z-index: 1000;}
+*/
+.site-header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 252, 249, 0.85); /* tu tono crema con transparencia */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-bottom: 1px solid var(--line);
+  z-index: 1000; /* mantiene el header por encima del contenido */
+}
+
 .header-inner{
   display:flex;
   justify-content:space-between; /* marca a la izq, idioma a la der */
