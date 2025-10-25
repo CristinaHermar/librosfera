@@ -3,11 +3,11 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2Pi
 
 // Fallback local (por si falla el CSV)
 const FALLBACK_BOOKS = [
-  { titulo:'La isla misteriosa', autor:'J. Verne', genero:'aventura, clásico', tono:'épico', ritmo:'rápido', publico:'general', etiquetas:'isla', flags:'Lenguaje antiguo', reseña:'Aventura clásica con ingenio y exploración.' },
-  { titulo:'Orgullo y prejuicio', autor:'J. Austen', genero:'romance, clásico', tono:'ágil', ritmo:'medio', publico:'adulto', etiquetas:'regencia', flags:'Romance; referencias sociales', reseña:'Romance afilado con crítica social.' },
-  { titulo:'El nombre de la rosa', autor:'U. Eco', genero:'misterio, histórica', tono:'oscuro', ritmo:'pausado', publico:'adulto', etiquetas:'monasterio', flags:'Violencia; tensión', reseña:'Misterio intelectual en la Edad Media.' },
-  { titulo:'El Hobbit', autor:'J.R.R. Tolkien', genero:'fantasía, aventura', tono:'luminoso', ritmo:'medio', publico:'juvenil', etiquetas:'viaje', flags:'Violencia fantástica leve', reseña:'Viaje iniciático lleno de criaturas y tesoros.' },
-  { titulo:'Ciencia ficción para curiosos', autor:'Varios', genero:'ciencia ficción', tono:'especulativo', ritmo:'medio', publico:'general', etiquetas:'ideas', flags:'Temas maduros', reseña:'Explora futuros posibles con buen pulso.' },
+  { titulo:'La isla misteriosa', autor:'J. Verne', genero:'aventura, clásico', tono:'épico', ritmo:'rápido', publico:'general', etiquetas:'isla', flags:'', 'reseña':'Aventura clásica con ingenio y exploración.' },
+  { titulo:'Orgullo y prejuicio', autor:'J. Austen', genero:'romance, clásico', tono:'ágil', ritmo:'medio', publico:'adulto', etiquetas:'regencia', flags:'', 'reseña':'Romance afilado con crítica social.' },
+  { titulo:'El nombre de la rosa', autor:'U. Eco', genero:'misterio, histórica', tono:'oscuro', ritmo:'pausado', publico:'adulto', etiquetas:'monasterio', flags:'', 'reseña':'Misterio intelectual en la Edad Media.' },
+  { titulo:'El Hobbit', autor:'J.R.R. Tolkien', genero:'fantasía, aventura', tono:'luminoso', ritmo:'medio', publico:'juvenil', etiquetas:'viaje', flags:'', 'reseña':'Viaje iniciático lleno de criaturas y tesoros.' },
+  { titulo:'Ciencia ficción para curiosos', autor:'Varios', genero:'ciencia ficción', tono:'especulativo', ritmo:'medio', publico:'general', etiquetas:'ideas', flags:'', 'reseña':'Explora futuros posibles con buen pulso.' },
 ];
 
 // ========= i18n =========
@@ -33,7 +33,6 @@ const i18n = {
     paceLabel: "Ritmo",
     anyOption: "(cualquiera)",
     seeRecs: "✨ Ver recomendaciones",
-    keepRefining: "Seguir afinando",
     subhint: "Las opciones se rellenan solitas según el/los géneros elegidos.",
 
     coffeeTitle: "☕ ¿Te sirvió?",
@@ -67,7 +66,6 @@ const i18n = {
     paceLabel: "Pace",
     anyOption: "(any)",
     seeRecs: "✨ See recommendations",
-    keepRefining: "Keep refining",
     subhint: "Options auto-fill based on the genres you choose.",
 
     coffeeTitle: "☕ Did it help?",
@@ -90,9 +88,6 @@ let SELECTED_GENRES = new Set();
 let SELECTED_TONE = "";
 let SELECTED_PACE = "";
 let HAS_TRIGGERED = false;
-
-// NUEVO: control explícito para mostrar el Paso 2 solo tras “Seguir afinando”
-let SHOW_ADVANCED = false;
 
 // ========= Helpers =========
 const $ = s => document.querySelector(s);
@@ -128,24 +123,11 @@ function renderGenres(){
     b.textContent = g;
     b.className = SELECTED_GENRES.has(g) ? 'active' : '';
     b.onclick = () => {
-      // alternar selección
       SELECTED_GENRES.has(g) ? SELECTED_GENRES.delete(g) : SELECTED_GENRES.add(g);
-
-      // re-render géneros (para reflejar active)
-      renderGenres();
-
-      // actualizar opciones de tono/ritmo en base al filtro actual
-      updateOpts();
-
-      // 👇 Importante: NO mostrar resultados aún
-      HAS_TRIGGERED = false;
-      renderEmpty();
-
-      // mantener la visibilidad del Paso 2 según SHOW_ADVANCED
       updateVisibility();
-
-      // actualizar contador de coincidencias
-      updateCtaCount();
+      renderGenres();
+      updateOpts();
+      if (HAS_TRIGGERED) renderResults(applyFilters());
     };
     cont.appendChild(b);
   });
@@ -164,8 +146,6 @@ function updateOpts(){
 
   if(!SELECTED_TONE && tones.length===1){ SELECTED_TONE=tones[0]; toneSel.value=SELECTED_TONE; }
   if(!SELECTED_PACE && paces.length===1){ SELECTED_PACE=paces[0]; paceSel.value=SELECTED_PACE; }
-
-  updateCtaCount();
 }
 
 function applyFilters(){
@@ -203,7 +183,6 @@ function renderResults(list){
       <p><strong>${currentLang==='es'?'Tono':'Tone'}:</strong> ${r.tono||'—'}</p>
       <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
       <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
-      <p class="flags"><strong>${currentLang==='es'?'Flags':'Flags'}:</strong> ${r.flags || '—'}</p>
       <hr class="sep" />
       <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
     `;
@@ -213,36 +192,13 @@ function renderResults(list){
   root.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-// ======== CTA Count ========
-function updateCtaCount(){
-  const n = applyFilters().length;
-  const btn = $('#applyFiltersBtn');
-  const counter = $('#recCount');
-  if(btn){
-    const baseTxt = (currentLang==='es' ? '✨ Ver recomendaciones' : '✨ See recommendations');
-    btn.textContent = n ? `${baseTxt} (${n})` : baseTxt;
-  }
-  if(counter){
-    if(currentLang==='es'){
-      counter.textContent = n===0 ? '0 coincidencias (ajusta filtros)'
-        : (n===1 ? '1 coincidencia posible' : `${n} coincidencias posibles`);
-    }else{
-      counter.textContent = n===0 ? '0 matches (tweak filters)'
-        : (n===1 ? '1 possible match' : `${n} possible matches`);
-    }
-  }
-}
-
 // ========= Visibilidad =========
-// ANTES: se mostraba Paso 2 al elegir géneros:contentReference[oaicite:1]{index=1}
-// AHORA: solo si el usuario presionó "Seguir afinando"
 function updateVisibility(){
   const adv = $('#advancedFilters');
-  if(SHOW_ADVANCED){
+  if(SELECTED_GENRES.size>0){
     adv.classList.remove('hidden');
   }else{
     adv.classList.add('hidden');
-    // al ocultar, limpiamos selects
     SELECTED_TONE=""; SELECTED_PACE="";
     const tSel=$('#toneSelect'), pSel=$('#paceSelect');
     if(tSel) tSel.value=""; if(pSel) pSel.value="";
@@ -254,9 +210,8 @@ function resetAll(){
   SELECTED_GENRES.clear();
   SELECTED_TONE=""; SELECTED_PACE="";
   HAS_TRIGGERED=false;
-  SHOW_ADVANCED=false;           // ocultar Paso 2 en reset
   renderGenres(); updateOpts(); renderEmpty();
-  updateVisibility();
+  $('#advancedFilters').classList.add('hidden');
 }
 
 // ========= Traducción UI =========
@@ -287,9 +242,6 @@ function applyTranslations(lang){
   // Re-render de mensajes/labels en resultados (si ya hubo búsqueda)
   if(!HAS_TRIGGERED) renderEmpty();
   else renderResults(applyFilters());
-
-  // Rematar contador en el idioma nuevo
-  updateCtaCount();
 }
 
 // ========= Init =========
@@ -315,4 +267,41 @@ document.addEventListener('DOMContentLoaded', ()=>{
       // Render inicial
       renderGenres();
       updateOpts();
-      up
+      updateVisibility();
+      applyTranslations(currentLang); // aplica idioma a todo
+      renderEmpty();
+
+      // Listeners
+      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+      $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
+
+      // “Que el destino lo decida” — NO oculta géneros
+      $('#destinyBtn').onclick=()=>{
+        const pool = applyFilters();
+        const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
+        const pick = base[Math.floor(Math.random()*base.length)];
+        HAS_TRIGGERED = true;
+        renderResults([pick]);
+      };
+
+      $('#resetBtn').onclick=resetAll;
+
+      // Toggle idioma
+      const langBtn = document.getElementById("langToggle");
+      if (langBtn) {
+        langBtn.addEventListener("click", () => {
+          applyTranslations(currentLang === "es" ? "en" : "es");
+        });
+      }
+    },
+    error: err => {
+      console.error('Error descargando CSV:', err);
+      CATALOG = FALLBACK_BOOKS;
+      renderGenres(); updateOpts(); updateVisibility();
+      applyTranslations(currentLang);
+      renderEmpty();
+    }
+  });
+});

@@ -36,7 +36,7 @@
             Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
             Historias con personajes fuera de lo común o imposibles de olvidar.
             Aquí encontrarás lecturas que valen la pena.
-            Además te señalamos las <strong>red flags</strong> que casi nadie menciona:
+            Además señalamos las <strong>red flags</strong> que casi nadie menciona:
             lenguaje vulgar, referencias LGBT, relaciones tóxicas, violencia, tensión psicológica...
             pero que nos importa a los que buscamos buenas lecturas.
           </p>
@@ -65,11 +65,6 @@
   <main class="wrap two-cols">
     <!-- Columna izquierda -->
     <div class="main-col">
-      <!-- Botón limpiar SEPARADO, fuera del card y justo bajo el header -->
-      <div class="reset-top">
-        <button id="resetBtn" class="btn ghost" data-i18n="resetBtn">↺ Limpiar selección</button>
-      </div>
-
       <!-- Paso 1 -->
       <section class="card step">
         <div class="step-badge">1</div>
@@ -83,6 +78,11 @@
 
         <!-- Géneros -->
         <div id="genresContainer" class="pill-group big"></div>
+
+        <!-- Acciones secundarias -->
+        <div class="inline-actions">
+          <button id="resetBtn" class="btn ghost" data-i18n="resetBtn">↺ Limpiar selección</button>
+        </div>
       </section>
 
       <!-- Paso 2 -->
@@ -99,20 +99,9 @@
             <select id="paceSelect"><option value="" data-i18n="anyOption">(cualquiera)</option></select>
           </label>
         </div>
-
-        <!-- Acciones duales -->
         <div class="actions">
-          <div class="actions-left">
-            <button id="applyFiltersBtn" class="btn accent" data-i18n="seeRecs">✨ Ver recomendaciones</button>
-            <button id="keepRefiningBtn" class="btn ghost" type="button" data-i18n="keepRefining">
-              Seguir afinando
-            </button>
-          </div>
-          <div class="actions-right">
-            <small id="recCount" class="muted-count"></small>
-          </div>
+          <button id="applyFiltersBtn" class="btn accent" data-i18n="seeRecs">✨ Ver recomendaciones</button>
         </div>
-
         <p class="subhint" data-i18n="subhint">Las opciones se rellenan solitas según el/los géneros elegidos.</p>
       </section>
 
