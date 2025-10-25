@@ -96,7 +96,6 @@ function splitGenres(g){ return String(g||'').split(',').map(s=>s.trim()).filter
 function unique(arr){ return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'})); }
 
 function normalizeRow(r){
-  // normaliza claves por si el CSV trae mayúsculas/minúsculas distintas
   const out={};
   const keys = ['titulo','autor','genero','tono','ritmo','publico','etiquetas','flags','reseña','resena'];
   keys.forEach(k=>{
@@ -188,7 +187,6 @@ function renderResults(list){
     `;
     root.appendChild(d);
   });
-  // scroll suave hacia resultados en móvil
   root.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
@@ -212,17 +210,15 @@ function resetAll(){
   HAS_TRIGGERED=false;
   renderGenres(); updateOpts(); renderEmpty();
   $('#advancedFilters').classList.add('hidden');
+  $('#genresContainer').classList.remove('hidden');
 }
 
 // ========= Traducción UI =========
 function applyTranslations(lang){
-  // Textos con data-i18n
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const key = el.dataset.i18n;
     if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
   });
-
-  // Ajustar selects "(cualquiera)/(any)"
   const toneSel = $('#toneSelect');
   const paceSel = $('#paceSelect');
   if(toneSel && toneSel.options.length){
@@ -231,26 +227,19 @@ function applyTranslations(lang){
   if(paceSel && paceSel.options.length){
     paceSel.options[0].textContent = i18n[lang].anyOption;
   }
-
-  // Botón del header
   const langBtn = document.getElementById("langToggle");
   if(langBtn) langBtn.textContent = (lang === "es") ? "🌐 EN" : "🌐 ES";
-
   currentLang = lang;
   localStorage.setItem("lang", lang);
-
-  // Re-render de mensajes/labels en resultados (si ya hubo búsqueda)
   if(!HAS_TRIGGERED) renderEmpty();
   else renderResults(applyFilters());
 }
 
 // ========= Init =========
 document.addEventListener('DOMContentLoaded', ()=>{
-  // Mensajes iniciales
   renderStateMessage($('#genresContainer'), 'loadingGenres');
   renderStateMessage($('#results'), 'loadingCatalog');
 
-  // Carga CSV
   Papa.parse(SHEET_URL, {
     download: true,
     header: true,
@@ -264,31 +253,29 @@ document.addEventListener('DOMContentLoaded', ()=>{
         CATALOG = FALLBACK_BOOKS;
       }
 
-      // Render inicial
       renderGenres();
       updateOpts();
       updateVisibility();
-      applyTranslations(currentLang); // aplica idioma a todo
+      applyTranslations(currentLang);
       renderEmpty();
 
-      // Listeners
       const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
       if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
       if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
       $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
 
-      // “Que el destino lo decida” — NO oculta géneros
+      // “Que el destino lo decida” — AHORA oculta los géneros 👇
       $('#destinyBtn').onclick=()=>{
         const pool = applyFilters();
         const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
         const pick = base[Math.floor(Math.random()*base.length)];
         HAS_TRIGGERED = true;
+        $('#genresContainer').classList.add('hidden'); // 👈 NUEVA LÍNEA
         renderResults([pick]);
       };
 
       $('#resetBtn').onclick=resetAll;
 
-      // Toggle idioma
       const langBtn = document.getElementById("langToggle");
       if (langBtn) {
         langBtn.addEventListener("click", () => {
