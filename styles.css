@@ -163,6 +163,38 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
 .book h3{margin:0 0 8px;font-family:Outfit;}
 .empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);background:#F9F5EE;}
 
+/* === Botón Reset flotante === */
+#resetBtn {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 0.6rem 1rem;
+  font-size: 14px;
+  color: var(--muted);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1500;
+}
+
+#resetBtn.visible {
+  display: inline-block; /* visible cuando tiene la clase */
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* pequeño giro al hacer clic */
+#resetBtn:active {
+  transform: scale(0.96) rotate(-5deg);
+}
+
 /* ===== Responsive ===== */
 @media (max-width:900px){
   .two-cols{flex-direction:column;}

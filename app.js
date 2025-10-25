@@ -109,13 +109,13 @@ function renderStateMessage(where, key){
 }
 
 // ========= Mostrar/Ocultar Reset =========
-function showResetBtn(){
+function showResetBtn() {
   const btn = $('#resetBtn');
-  if(btn) btn.classList.remove('hidden');
+  if (btn) btn.classList.add('visible');
 }
-function hideResetBtn(){
+function hideResetBtn() {
   const btn = $('#resetBtn');
-  if(btn) btn.classList.add('hidden');
+  if (btn) btn.classList.remove('visible');
 }
 
 // ========= Géneros =========
@@ -196,6 +196,7 @@ function renderResults(list){
       <p><strong>${currentLang==='es'?'Ritmo':'Pace'}:</strong> ${r.ritmo||'—'}</p>
       <p><strong>${currentLang==='es'?'Público':'Audience'}:</strong> ${r.publico||'—'}</p>
       <hr class="sep" />
+      <p><strong>${currentLang==='es'?'Flags':'Flags'}:</strong> ${r.flags || '—'}</p>
       <p><strong>${currentLang==='es'?'Reseña':'Blurb'}:</strong> ${r['reseña'] || r['resena'] || '—'}</p>
     `;
     root.appendChild(d);
