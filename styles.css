@@ -14,7 +14,7 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
 /* ===== Header ===== */
-.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line) z-index: 1000;}
+.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line); z-index: 1000;}
 .header-inner{
   display:flex;
   justify-content:space-between; /* marca a la izq, idioma a la der */
