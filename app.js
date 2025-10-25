@@ -108,6 +108,16 @@ function renderStateMessage(where, key){
   where.innerHTML = `<div class="empty">${i18n[currentLang][key]}</div>`;
 }
 
+// ========= Mostrar/Ocultar Reset =========
+function showResetBtn(){
+  const btn = $('#resetBtn');
+  if(btn) btn.classList.remove('hidden');
+}
+function hideResetBtn(){
+  const btn = $('#resetBtn');
+  if(btn) btn.classList.add('hidden');
+}
+
 // ========= Géneros =========
 function renderGenres(){
   const cont = $('#genresContainer');
@@ -122,6 +132,9 @@ function renderGenres(){
     b.textContent = g;
     b.className = SELECTED_GENRES.has(g) ? 'active' : '';
     b.onclick = () => {
+      // mostrar botón reset cuando se hace clic en un género
+      showResetBtn();
+
       SELECTED_GENRES.has(g) ? SELECTED_GENRES.delete(g) : SELECTED_GENRES.add(g);
       updateVisibility();
       renderGenres();
@@ -211,6 +224,35 @@ function resetAll(){
   renderGenres(); updateOpts(); renderEmpty();
   $('#advancedFilters').classList.add('hidden');
   $('#genresContainer').classList.remove('hidden');
+  hideResetBtn();
+}
+
+// ========= Listeners =========
+function wireEvents(){
+  const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
+  if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+  if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
+  $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
+
+  // botón “Que el destino lo decida”
+  $('#destinyBtn').onclick=()=>{
+    const pool = applyFilters();
+    const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
+    const pick = base[Math.floor(Math.random()*base.length)];
+    HAS_TRIGGERED = true;
+    $('#genresContainer').classList.add('hidden');
+    renderResults([pick]);
+    showResetBtn(); // aparece aquí también
+  };
+
+  $('#resetBtn').onclick=resetAll;
+
+  const langBtn = document.getElementById("langToggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      applyTranslations(currentLang === "es" ? "en" : "es");
+    });
+  }
 }
 
 // ========= Traducción UI =========
@@ -239,6 +281,8 @@ function applyTranslations(lang){
 document.addEventListener('DOMContentLoaded', ()=>{
   renderStateMessage($('#genresContainer'), 'loadingGenres');
   renderStateMessage($('#results'), 'loadingCatalog');
+  wireEvents();
+  hideResetBtn(); // 👈 oculto desde el inicio
 
   Papa.parse(SHEET_URL, {
     download: true,
@@ -252,36 +296,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
         console.error('Error parseando CSV:', e);
         CATALOG = FALLBACK_BOOKS;
       }
-
       renderGenres();
       updateOpts();
       updateVisibility();
       applyTranslations(currentLang);
       renderEmpty();
-
-      const toneSel=$('#toneSelect'), paceSel=$('#paceSelect');
-      if(toneSel) toneSel.onchange=e=>{SELECTED_TONE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
-      if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
-      $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
-
-      // “Que el destino lo decida” — AHORA oculta los géneros 👇
-      $('#destinyBtn').onclick=()=>{
-        const pool = applyFilters();
-        const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
-        const pick = base[Math.floor(Math.random()*base.length)];
-        HAS_TRIGGERED = true;
-        $('#genresContainer').classList.add('hidden'); // 👈 NUEVA LÍNEA
-        renderResults([pick]);
-      };
-
-      $('#resetBtn').onclick=resetAll;
-
-      const langBtn = document.getElementById("langToggle");
-      if (langBtn) {
-        langBtn.addEventListener("click", () => {
-          applyTranslations(currentLang === "es" ? "en" : "es");
-        });
-      }
     },
     error: err => {
       console.error('Error descargando CSV:', err);
