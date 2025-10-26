@@ -14,19 +14,7 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
 /* ===== Header ===== */
-/*.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line); z-index: 1000;}
-*/
-.site-header {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(8px);
-  background: rgba(255, 252, 249, 0.85); /* tu tono crema con transparencia */
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  border-bottom: 1px solid var(--line);
-  z-index: 1000; /* mantiene el header por encima del contenido */
-}
-
+.site-header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);}
 .header-inner{
   display:flex;
   justify-content:space-between; /* marca a la izq, idioma a la der */
@@ -117,29 +105,12 @@ h1{font-weight:800}h2{font-weight:700}h3{font-weight:700}
 
 /* ===== Tarjetas y pasos ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;}
-.step{
-  display:grid;
-  grid-template-columns:36px 1fr;
-  gap:12px;
-  margin:18px 0;
-  align-items:start;
-  position:relative;           /* permite anclar el botón dentro */
-  padding-bottom:64px;         /* espacio para el botón flotante */
-}
+.step{display:grid;grid-template-columns:36px 1fr;gap:12px;margin:18px 0;align-items:start;}
 .step-badge{width:30px;height:30px;border-radius:50%;background:var(--pill);display:grid;place-items:center;font-weight:800;font-family:Outfit;border:1px solid var(--line);}
 .step h2,.step .hint,.step .cta-row,.step #genresContainer,.step .inline-actions,.step .filters,.step .actions,.step .subhint{grid-column:2;}
 .hint{color:var(--muted);font-size:14px;}
 .cta-row{margin:12px 0 8px;}
 .hidden{display:none!important;}
-
-/* === Botón Reset anclado abajo-izquierda del Paso 1 === */
-.step:first-of-type .inline-actions{
-  position:absolute;
-  right:18px;   
-  bottom:12px;
-}
-.step:first-of-type .inline-actions .btn{margin:0;}
-
 
 /* ===== Layout columnas ===== */
 .two-cols{display:flex;gap:28px;margin:22px 0;}
@@ -163,38 +134,6 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
 .book h3{margin:0 0 8px;font-family:Outfit;}
 .empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);background:#F9F5EE;}
 
-/* === Botón Reset flotante === */
-#resetBtn {
-  display: none; /* oculto por defecto */
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  padding: 0.6rem 1rem;
-  font-size: 14px;
-  color: var(--muted);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 1500;
-}
-
-#resetBtn.visible {
-  display: inline-block; /* visible cuando tiene la clase */
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-/* pequeño giro al hacer clic */
-#resetBtn:active {
-  transform: scale(0.96) rotate(-5deg);
-}
-
 /* ===== Responsive ===== */
 @media (max-width:900px){
   .two-cols{flex-direction:column;}
@@ -206,15 +145,12 @@ select{padding:12px;border-radius:12px;border:1px solid var(--line);background:#
   .results-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
   .btn.huge{width:100%;}
 }
-/* badge y gaps cambian — ajustamos el anclaje para pantallas pequeñas */
 @media (max-width:430px){
-  .step{grid-template-columns:30px 1fr;gap:10px;padding-bottom:64px;}
+  .step{grid-template-columns:30px 1fr;gap:10px;}
   .step-badge{width:26px;height:26px;font-size:14px;}
-  .step:first-of-type .inline-actions{left: calc(18px + 30px + 10px); bottom:10px;}
   .step h2{font-size:clamp(20px,6vw,28px);}
 }
 @media (max-width:360px){
   .step{grid-template-columns:28px 1fr;gap:8px;}
   .step-badge{width:24px;height:24px;font-size:13px;}
-  .step:first-of-type .inline-actions{left: calc(18px + 28px + 8px); bottom:8px;}
 }
