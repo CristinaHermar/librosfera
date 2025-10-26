@@ -1,5 +1,5 @@
 // ========= Config =========
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=870285525&single=true&output=csv';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/1Bzl-G-qF8MUyO8W3yXkoSI-uYAcuXzfF8HQT_HVEF7Y/pub?gid=0&single=true&output=csv';
 
 // Fallback local (por si falla el CSV)
 const FALLBACK_BOOKS = [
