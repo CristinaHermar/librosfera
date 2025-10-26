@@ -1,7 +1,11 @@
 // ========= Config =========
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv';
+const SHEET_URLS = {
+  es: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv',
+  en: 'https://docs.google.com/spreadsheets/d/1Rg62dBPXfKK5vx0S1IliT8uXhYINKkNEWcfoZxsR-0Q/export?format=csv&gid=870285525'
+};
 
-// Fallback local (por si falla el CSV)
+
+// ========= Fallback local (por si falla el CSV) =========
 const FALLBACK_BOOKS = [
   { titulo:'La isla misteriosa', autor:'J. Verne', genero:'aventura, clásico', tono:'épico', ritmo:'rápido', publico:'general', etiquetas:'isla', flags:'', 'reseña':'Aventura clásica con ingenio y exploración.' },
   { titulo:'Orgullo y prejuicio', autor:'J. Austen', genero:'romance, clásico', tono:'ágil', ritmo:'medio', publico:'adulto', etiquetas:'regencia', flags:'', 'reseña':'Romance afilado con crítica social.' },
@@ -132,9 +136,7 @@ function renderGenres(){
     b.textContent = g;
     b.className = SELECTED_GENRES.has(g) ? 'active' : '';
     b.onclick = () => {
-      // mostrar botón reset cuando se hace clic en un género
       showResetBtn();
-
       SELECTED_GENRES.has(g) ? SELECTED_GENRES.delete(g) : SELECTED_GENRES.add(g);
       updateVisibility();
       renderGenres();
@@ -235,7 +237,6 @@ function wireEvents(){
   if(paceSel) paceSel.onchange=e=>{SELECTED_PACE=e.target.value||""; if(HAS_TRIGGERED) renderResults(applyFilters())};
   $('#applyFiltersBtn').onclick=()=>{HAS_TRIGGERED=true; renderResults(applyFilters())};
 
-  // botón “Que el destino lo decida”
   $('#destinyBtn').onclick=()=>{
     const pool = applyFilters();
     const base = (pool.length ? pool : (CATALOG.length ? CATALOG : FALLBACK_BOOKS));
@@ -243,7 +244,7 @@ function wireEvents(){
     HAS_TRIGGERED = true;
     $('#genresContainer').classList.add('hidden');
     renderResults([pick]);
-    showResetBtn(); // aparece aquí también
+    showResetBtn();
   };
 
   $('#resetBtn').onclick=resetAll;
@@ -262,6 +263,7 @@ function applyTranslations(lang){
     const key = el.dataset.i18n;
     if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
   });
+
   const toneSel = $('#toneSelect');
   const paceSel = $('#paceSelect');
   if(toneSel && toneSel.options.length){
@@ -270,12 +272,37 @@ function applyTranslations(lang){
   if(paceSel && paceSel.options.length){
     paceSel.options[0].textContent = i18n[lang].anyOption;
   }
+
   const langBtn = document.getElementById("langToggle");
   if(langBtn) langBtn.textContent = (lang === "es") ? "🌐 EN" : "🌐 ES";
   currentLang = lang;
   localStorage.setItem("lang", lang);
+
   if(!HAS_TRIGGERED) renderEmpty();
   else renderResults(applyFilters());
+
+  // ✅ recargar catálogo desde la hoja correcta al cambiar idioma
+  Papa.parse(SHEET_URLS[lang], {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: res => {
+      try {
+        const rows = (res.data || []).map(normalizeRow).filter(r => (r.titulo || '').trim() !== '');
+        CATALOG = rows.length ? rows : FALLBACK_BOOKS;
+      } catch (e) {
+        console.error('Error parseando CSV:', e);
+        CATALOG = FALLBACK_BOOKS;
+      }
+      renderGenres();
+      updateOpts();
+      updateVisibility();
+      renderEmpty();
+    },
+    error: err => {
+      console.error('Error descargando CSV:', err);
+    }
+  });
 }
 
 // ========= Init =========
@@ -283,17 +310,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
   renderStateMessage($('#genresContainer'), 'loadingGenres');
   renderStateMessage($('#results'), 'loadingCatalog');
   wireEvents();
-  hideResetBtn(); // oculto desde el inicio
+  hideResetBtn();
 
-  Papa.parse(SHEET_URL, {
+  Papa.parse(SHEET_URLS[currentLang], {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: res => {
-      try{
+      try {
         const rows = (res.data||[]).map(normalizeRow).filter(r => (r.titulo||'').trim() !== '');
         CATALOG = rows.length ? rows : FALLBACK_BOOKS;
-      }catch(e){
+      } catch(e) {
         console.error('Error parseando CSV:', e);
         CATALOG = FALLBACK_BOOKS;
       }
@@ -306,7 +333,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     error: err => {
       console.error('Error descargando CSV:', err);
       CATALOG = FALLBACK_BOOKS;
-      renderGenres(); updateOpts(); updateVisibility();
+      renderGenres();
+      updateOpts();
+      updateVisibility();
       applyTranslations(currentLang);
       renderEmpty();
     }
