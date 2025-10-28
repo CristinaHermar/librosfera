@@ -1,0 +1,135 @@
+/* -------- Librosfera Look & Feel ----------
+   Fondo cálido, tipografía limpia, bordes suaves.
+-------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --fondo: #FAF7F2;        /* crema cálido */
+  --texto: #333333;
+  --suave: #F3EDE6;        /* crema más intenso para superficies */
+  --borde: #E9E1D9;        /* línea muy tenue */
+  --acento: #C97048;       /* terracota */
+  --acento-oscuro: #B05E3D;
+  --radius-lg: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* ====== Header (déjalo vacío si quieres) ====== */
+header{
+  padding: 22px 16px 0;
+}
+
+/* ====== Layout básico del main/section ====== */
+main{
+  padding: 28px 18px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+section{
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  border: 1px solid var(--borde);
+}
+
+/* ====== Títulos ====== */
+h2{
+  margin: 0 0 18px 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.2px;
+  color: var(--texto);
+}
+
+/* ====== Tabla principal ====== */
+#tablaLibros{
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  overflow: hidden;               /* redondeo visible en cabecera */
+  border: 1px solid var(--borde);
+}
+
+#tablaLibros thead th{
+  background: var(--suave);
+  color: #444;
+  text-align: left;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.95rem;
+}
+
+#tablaLibros tbody td{
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.95rem;
+}
+
+#tablaLibros tbody tr:hover{
+  background: #f9f6f1;            /* hover suave */
+  cursor: pointer;
+}
+
+/* Rayado sutil */
+#tablaLibros tbody tr:nth-child(odd){
+  background: #fff;
+}
+#tablaLibros tbody tr:nth-child(even){
+  background: #FFFEFD;
+}
+
+/* ====== Botones genéricos (si luego agregas) ====== */
+button{
+  background: var(--acento);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+button:hover{
+  background: var(--acento-oscuro);
+}
+
+/* ====== Responsivo ====== */
+@media (max-width: 640px){
+  main{ padding: 22px 14px 50px; }
+  section{ padding: 18px; }
+  #tablaLibros thead th,
+  #tablaLibros tbody td{ padding: 10px 12px; }
+}
+
+/* ====== Detalles visuales opcionales (no cambian contenido) ====== */
+/* Borde redondeado del contenedor de la tabla si la envuelves en <section> */
+section > #tablaLibros{
+  margin-top: 6px;
+}
+
+/* Si alguna vez agregas mensajes de estado/errores en una celda roja */
+td[style*="#b00020"]{
+  background: #FEF3F2;
+  color: #B42318 !important;
+  font-weight: 600;
+}
