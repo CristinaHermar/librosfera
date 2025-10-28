@@ -1,8 +1,8 @@
 // 🌎 CONFIGURACIÓN DE IDIOMA Y URLs -------------------------
 let currentLang = "es";
 const urls = {
-  es: "https://docs.google.com/spreadsheets/d/e/XXXX_ESPAÑOL/pub?gid=0&single=true&output=csv",
-  en: "https://docs.google.com/spreadsheets/d/e/YYYY_INGLÉS/pub?gid=0&single=true&output=csv"
+  es: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv",
+  en: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=677796881&single=true&output=csv"
 };
 
 let libros = [];
