@@ -1,4 +1,4 @@
-// 🌎 CONFIGURACIÓN DE IDIOMA Y URLs -------------------------
+// CONFIGURACIÓN DE IDIOMA Y URLs -------------------------
 let currentLang = "es";
 const urls = {
   es: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_lN4MQGP2PigjKJFOV8ZK92MvfpQWj8aH7qqntBJHOKv6XsvLAxriHmjU3WcD7kafNvNbj3pTFqND/pub?gid=0&single=true&output=csv",
@@ -7,7 +7,7 @@ const urls = {
 
 let libros = [];
 
-// 🧱 FUNCIÓN DE ERROR --------------------------------------
+// FUNCIÓN DE ERROR --------------------------------------
 function showError(msg) {
   console.error("⚠️ " + msg);
   const tbody = document.querySelector("#tablaLibros tbody");
@@ -16,7 +16,7 @@ function showError(msg) {
   }
 }
 
-// 📥 CARGAR DATOS DEL CSV ----------------------------------
+// CARGAR DATOS DEL CSV ----------------------------------
 function cargarDatos(url) {
   console.log("🔄 Cargando datos desde:", url);
 
@@ -64,7 +64,7 @@ function cargarDatos(url) {
   });
 }
 
-// 📊 MOSTRAR TABLA PRINCIPAL -------------------------------
+// MOSTRAR TABLA PRINCIPAL -------------------------------
 function mostrarTabla(data) {
   const tbody = document.querySelector("#tablaLibros tbody");
   if (!tbody) return;
@@ -86,7 +86,7 @@ function mostrarTabla(data) {
   });
 }
 
-// 🧩 LLENAR SELECT DE GÉNEROS -------------------------------
+// LLENAR SELECT DE GÉNEROS -------------------------------
 function llenarSelectGeneros(data) {
   const select = document.getElementById("generoSelect");
   if (!select) return;
@@ -108,7 +108,7 @@ function llenarSelectGeneros(data) {
     });
 }
 
-// 💠 MOSTRAR TARJETAS ---------------------------------------
+// MOSTRAR TARJETAS ---------------------------------------
 function mostrarTarjetas(data) {
   const cont = document.getElementById("tarjetasLibros");
   if (!cont) return;
@@ -141,14 +141,14 @@ function showDetalle(libro) {
   alert(`📚 ${titulo}\n👤 ${autor}\n🏷️ ${genero}\n\n${reseña}`);
 }
 
-// 🔒 ESCAPAR HTML -------------------------------------------
+// ESCAPAR HTML -------------------------------------------
 function escapeHtml(str) {
   return str.replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c])
   );
 }
 
-// 🎛️ EVENTOS ------------------------------------------------
+// EVENTOS ------------------------------------------------
 document.getElementById("generoSelect").addEventListener("change", (e) => {
   const filtro = e.target.value;
   const filtrados = filtro
@@ -178,5 +178,5 @@ document.getElementById("btnIdioma").addEventListener("click", () => {
   cargarDatos(urls[currentLang]);
 });
 
-// 🚀 INICIALIZACIÓN -----------------------------------------
+// INICIALIZACIÓN -----------------------------------------
 cargarDatos(urls[currentLang]);
