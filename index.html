@@ -1,28 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Librosfera</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Fátima</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      margin: 2rem;
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin-bottom: 20px;
+      border: none;
+      background-color: #ff6b6b;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff4b4b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+
+    #randomLibro {
+      margin-top: 15px;
+      font-style: italic;
+      color: #666;
+    }
+
+    #tarjetasLibros {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tarjeta {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      padding: 10px;
+      width: 180px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <header>
-  </header>
-  <main>
-    <section>
-      <h2>Español</h2>
-      <table id="tablaLibros">
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Género</th>
-            
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+
+  <h1>Biblioteca Fátima</h1>
+  
+  <!-- Botón para cambiar idioma -->
+  <button id="btnIdioma">English</button>
+
+  <!-- Select de géneros -->
+  <select id="generoSelect">
+    <option value="">Todos los géneros</option>
+  </select>
+
+  <!-- Tabla principal -->
+  <table id="tablaLibros">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Género</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Se llena dinámicamente -->
+    </tbody>
+  </table>
+
+  <!-- Tarjetas alternativas (modo visual) -->
+  <div id="tarjetasLibros"></div>
+
+  <!-- Botón sorpresa -->
+  <button id="btnRandom">Libro aleatorio</button>
+  <div id="randomLibro"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
 </body>
