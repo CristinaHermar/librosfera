@@ -9,8 +9,8 @@
   --texto: #333333;
   --suave: #F3EDE6;        /* crema más intenso para superficies */
   --borde: #E9E1D9;        /* línea muy tenue */
-  --acento: #C97048;       /* terracota */
-  --acento-oscuro: #B05E3D;
+  --acento: hsl(0, 88%, 65%);       /* terracota */
+  --acento-oscuro: #e95353;
   --radius-lg: 14px;
   --radius-sm: 10px;
   --shadow: 0 8px 18px rgba(0,0,0,0.06);
