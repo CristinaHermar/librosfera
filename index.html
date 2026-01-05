@@ -1,163 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Prueba favicon</title>
 
-  <title>Librosfera · Encuentra tu próxima lectura</title>
-
-  <!-- =====================
-       FAVICON / ICONOS
-       (GitHub Pages: rutas relativas)
-  ====================== -->
-  <link rel="icon" type="image/jpeg" href="icons/yo.jpg">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icons/yo.jpg">
   <link rel="apple-touch-icon" href="icons/yo.jpg">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- =====================
-       TIPOGRAFÍAS
-  ====================== -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <!-- =====================
-       CSS CRÍTICO (anti-flash iOS)
-  ====================== -->
-  <style>
-    .tagline-desktop { display: none !important; }
-    .tagline-mobile { display: block !important; }
-    @media (min-width: 701px) {
-      .tagline-desktop { display: block !important; }
-      .tagline-mobile { display: none !important; }
-    }
-  </style>
-
-  <!-- =====================
-       CSS / JS
-  ====================== -->
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="app.js" defer></script>
 </head>
 
 <body>
-
-  <!-- =====================
-       HEADER
-  ====================== -->
-  <header class="site-header">
-    <div class="wrap header-inner">
-
-      <!-- Marca -->
-      <div class="brand">
-        <span class="logo">📚</span>
-        <div class="brand-text">
-          <h1>Librosfera</h1>
-
-          <!-- Desktop -->
-          <p class="tagline tagline-desktop">
-            Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
-            Historias con personajes fuera de lo común o imposibles de olvidar.
-            Aquí encontrarás lecturas que valen la pena.
-            Además señalamos las <strong>red flags</strong> que casi nadie menciona.
-          </p>
-
-          <!-- Mobile -->
-          <details class="tagline-mobile">
-            <summary>Acerca de esta guía</summary>
-            <div class="tagline-content">
-              Recomendaciones para quienes buscan libros que atrapan, que dejan huella.
-              Historias con personajes fuera de lo común o imposibles de olvidar.
-              Aquí encontrarás lecturas que valen la pena.
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <!-- Idioma -->
-      <button id="langToggle" class="btn lang-switch">🌐 ENGGGGGGGG</button>
-    </div>
-  </header>
-
-  <!-- =====================
-       MAIN
-  ====================== -->
-  <main class="wrap two-cols">
-
-    <!-- Columna izquierda -->
-    <div class="main-col">
-
-      <section class="card step">
-        <div class="step-badge">1</div>
-        <h2>Elige uno o más géneros</h2>
-        <p class="hint">O pídele al destino que elija por ti.</p>
-
-        <div class="cta-row">
-          <button id="destinyBtn" class="btn coffee huge">
-            ☕ Que el destino lo decida
-          </button>
-        </div>
-
-        <div id="genresContainer" class="pill-group big"></div>
-      </section>
-
-      <section id="advancedFilters" class="card step hidden">
-        <div class="step-badge">2</div>
-        <h2>Afina tu búsqueda</h2>
-
-        <div class="filters">
-          <label class="field">
-            <span>Tono</span>
-            <select id="toneSelect">
-              <option value="">(cualquiera)</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>Ritmo</span>
-            <select id="paceSelect">
-              <option value="">(cualquiera)</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="actions">
-          <button id="applyFiltersBtn" class="btn accent">
-            ✨ Ver recomendaciones
-          </button>
-        </div>
-      </section>
-
-      <section class="results-section">
-        <div id="results" class="results-grid"></div>
-      </section>
-
-    </div>
-
-    <!-- Columna derecha -->
-    <aside class="side-col">
-      <div class="card coffee-box">
-        <h3>☕ ¿Te sirvió?</h3>
-        <p>Invítame un café para poder seguir con este proyecto ✨</p>
-        <a
-          class="btn accent"
-          href="https://www.buymeacoffee.com/TU_USUARIO"
-          target="_blank"
-          rel="noopener"
-        >
-          ☕ Invítame un café
-        </a>
-      </div>
-    </aside>
-
-  </main>
-
-  <!-- Reset -->
-  <button id="resetBtn" class="btn ghost">
-    ↺ Limpiar selección
-  </button>
-
+  <h1>Hola mundo</h1>
+  <p>Si ves esto, el HTML carga bien.</p>
 </body>
 </html>
